@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Whatever</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <!-- Bootstrap 4 CSS via their cdn -->
+    <!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
+    <link rel="stylesheet" href="/bootstrap.min.css" />
+    <!-- jquery, popper.js, and bootstrap.min.js also required by bootstrap -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script type="module">
+      import { getIcon } from "/js/icons.js";
+      import { navToHash } from "/js/nav.js";
+      import { checkCanWrite } from "/js/tokens.js";
+      $(function() {
+	  // please think of a better way to do this
+          $("#tagbtn").html(getIcon("tag"));
+          $("#uploadbtn").html(getIcon("upload"));
+          window.onhashchange = navToHash;
+          window.location.hash = "#dr";
+          checkCanWrite();
+          navToHash();
+      });
+      </script>
+  </head>
+  <body style="padding-top: 60px;">
+    <nav id="topbar" class="navbar navbar-expand bg-dark navbar-dark fixed-top">
+      <button class="navbar-toggler" type="button" data-toggle="collapse"
+	      data-target="#navbarContent">
+	<span class="navbar-toggler-icon"></span>
+      </button>
+      <div id="navbarContent" class="collapse navbar-collapse">
+	<div id="nav_left" class="navbar-nav mr-auto">
+	  <div id="menujump" class="nav-item dropdown">
+	    <a id="menujump-top", class="nav-link dropdown-toggle" href="#"
+	       data-toggle="dropdown">recent</a>
+	    <div id="menujump-drop" class="dropdown-menu bg-dark text-white">
+	      <a class="dropdown-item" href="#dr">recent</a>
+	      <a class="dropdown-item" href="#dm">month</a>
+	      <a class="dropdown-item" href="#dl">location</a>
+	      <a class="dropdown-item" href="#dp">person</a>
+	    </div>
+	  </div>
+	  <span id="imgid" class="navbar-text p-3"></span>
+	</div>
+	<div id="nav_right" class="navbar-nav ml-auto">
+	  <!-- icons and handlers added in document.ready() -->
+	  <button id="newbtn" class="btn btn-secondary d-none">New</button>
+	  <a id="uploadbtn" class="nav-link d-none" href="#u"></a>
+	  <a id="tagbtn" class="nav-link" href="#t"></a>
+	</div>
+      </div>
+    </nav>
+    <div class="container-fluid" id="content">
+      <h2><a href="http://sadtrombone.com">OH CRAP</a></h2>
+      <p>If you can read this, the javascript didn't even parse.</p>
+    </div>
+  </body>
+</html>

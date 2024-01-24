@@ -1,0 +1,228 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+<head>
+<title>Help on using photoprism</title>
+<link rel="stylesheet" type="text/css" href="styles/greysunmoon.css" />
+<style type="text/css">
+div { margin-top: 20px; }
+</style>
+</head>
+<body>
+
+<div>
+<h3><a id="browser">Browser support</a></h3>
+<p>21 Oct 05: Firefox 1.0.7 on Windows XP is ok</p>
+<p>21 Oct 05: <span class="error">IE 6 on Windows XP is all screwed up</span>, 
+and probably fixable but I can't stand debugging it (see below).</p>
+<p>18 Oct 05: Firefox 1.0.6 on OS X 10.4 is ok</p>
+<p>18 Oct 05: <span class="error">Safari 2.0.1 on OS X 10.4</span> is ok for browsing, but type-ahead magic and possibly the whole edit page doesn't work</p>
+<p>18 Oct 05: Firefox 1.0.4 on Debian Linux is ok of course, since that's what I use</p>
+</div>
+
+<div>
+<h3><a id="ie">It doesn't work in Internet Explorer!</a></h3>
+<p>No, I don't expect that it does.  Don't bother to report this as a
+problem, since I don't care.
+<a href="http://www.singingtree.com/~mikey/blosxom/blosxom.pl/net/ie-sucks.html">Do
+you want to know why?</a></p>
+</div>
+
+<div>
+<h3><a id="upload">Uploading images</a></h3>
+
+<p>The most direct way to add more photographs to your gallery is to
+upload them through the Web site.  The Upload page will allow you to
+upload zero to five files at a time.  Each file may be either a single
+image in JPEG format, or a ZIP archive containing as many images as
+you like.  Any extra files in the ZIP archive that are not
+recognizable images will be discarded.  The maximum size for a 
+single file (JPEG or ZIP) is 256 MB.</p>
+
+<p>When you are uploading a batch of images, you can pre-select
+certain attributes (Date, Location, and Publication) that you want to
+automatically apply to the batch.  All other attributes, such as Time
+and Caption, must be edited one by one, since they don't make much
+sense to apply in a batch.  No matter whether or not you pre-assign
+any values, you can always go back and edit the images one by one.</p>
+
+<p>The default value for Date is the date stamp encoded inside the
+JPEG file by your digital camera.  (It need not be the same across an
+entire batch; each file is examined one by one.)  The default value
+for Location is nothing.  The default value for Publication is
+&quot;Unsorted&quot;.  Pictures in your Unsorted pile will not be
+visible to anyone except you, until you assign them to categories one
+by one.</p>
+
+<p>If you want to send a single file (JPEG or ZIP), with the default
+settings, you can do this from the &quot;Quick Upload&quot; form on
+your home page.</p>
+
+<p>If you have a huge number of files to upload, it is faster to
+burn them to CD or DVD and send it to me.  Files from CDs will be
+added to your Unsorted box unless you specify otherwise.</p>
+</div>
+
+<div>
+<h3><a id="preferences">Setting preferences</a></h3>
+
+<p>The &quot;Edit Preferences&quot; page is where you can update
+your contact information, set preferences, and change your
+password.</p>
+
+<p>All of the contact information is optional.  Actually, as of now (8
+Feb 2005), it is not used for anything or displayed anywhere in the
+site.  In the future, at least the email address may be used by
+&quot;share these pictures&quot; email functions.</p>
+
+<p>The &quot;Gallery Style&quot; setting controls the
+&quot;theme&quot; your gallery is displayed in.  If you know how to
+use CSS, you can easily design your own theme and email it to me to
+have it installed in the list.</p>
+
+<p>When you change your password, make sure you know what you typed,
+since you will not be asked to confirm it!</p>
+</div>
+
+<div>
+<h3><a id="permissions">Managing permissions</a></h3>
+
+<p>The ability to view pictures in the web site is controlled by
+publication categories (the field called &quot;Publish&quot; on the
+image editing page.) You may see any pictures that are assigned to a
+category you have permission to see, no matter who they belong to.  If
+you created a publication category, you are considered its
+&quot;owner&quot; and you may add or remove other people from the
+access control list.</p>
+<p>The categories named &quot;Public&quot; and &quot;Not
+Published&quot; are special.  Everybody may assign pictures to either
+of these.  Everybody may view Public images, but nobody may view
+images that are Not Published.  When people visit the web site and do
+not log in, they can see only Public pictures.</p>
+<p>Note that the site will always show you pictures that you own, even
+if you assign them to a category that you cannot view, such as
+&quot;Not Published&quot;.  This prevents pictures from being lost.</p>
+<p>To get to the <a href="/servlet/home?action=p">Manage
+Permissions</a> page, go to the <a href="/servlet/home">admin</a> page
+and click &quot;Manage Permissions.&quot;</p>
+</div>
+
+<div>
+<h3><a id="download">Downloading archives</a></h3>
+
+<p>You can download ZIP archive files containing large collections of
+your images from the <a href="/servlet/home?action=d">download
+page</a>.  This might be useful if you want to keep a backup copy, or
+if you want to move your images to another storage system (though I
+don't know why you would want to do that).</p>
+
+<p>Click any of the year links to download images from that year, or
+the &quot;One big file&quot; link to download a ZIP of everything you
+have ever posted.  The page will estimate the size of each file for
+you; in most cases you will want to start the download and come back
+in while.</p>
+</div>
+
+<div>
+<h3><a id="prints">Buying prints</a></h3>
+
+<p>These days, just about any lab will take your JPEG image files
+and make photographic quality prints.  <!--I am affiliated with
+Shutterfly, which means that if you use the links on this site to
+place an order with them, I receive money (<a
+href="#payola">details</a>).  Otherwise--> I do not particularly
+recommend any of these sites over the others.</p>
+
+<p>Be sure to send the original image files when ordering prints; do not
+just right-click and save the image as displayed in the photoprism web
+site.  You can retrieve the original file for any of your pictures by
+logging in, clicking the &quot;details&quot; view, then clicking
+the &quot;original file&quot; link in the Sizes pane.</p>
+
+<p><i>Update, 12 Apr 2005:</i> You can also have digital prints made
+at any Target or Wal-Mart.  This isn't news, but recently I am seeing
+that many professional photographers are perversely happy with
+Wal-Mart in particular.  This is because Wal-Mart, in keeping with its
+philosophy of providing rock bottom service at rock bottom prices,
+performs no postprocessing or color correction before dumping the
+files to the Frontier printer.  Thus your average point-and-shoot
+pictures will come out looking noticeably worse, but it is ideal for
+professionals that are hand profiling their images and don't want them
+screwed up in the lab.</p>
+
+<h3>Print lab price comparison</h3>
+
+<p>All prices in the table are for single prints (that is, without any volume
+or prepay discounts) and the listed shipping price is for the minimum
+order.  A + sign indicates that the price goes up with volume; a -
+sign indicates that the price goes down.</p>
+
+<p>These prices were gathered on 21 February 2005.</p>
+
+<table><tr>
+<th>Site</th>
+<th>4x6</th><th>5x7</th><th>8x10</th><th>11x14</th><th>16x20</th>
+<th>4 wallets</th>
+<th>Shipping</th><th>Location</th><th>Notes</th></tr>
+
+<tr><td><a href="http://www.mpix.com">Mpix</a></td>
+<td>.29</td><td>.99</td><td>1.99</td><td>6.99</td><td>15.99</td><td>.70</td>
+<td>4.95</td><td>Pittsburg, KS</td>
+<td>Another professional-oriented lab.  Premium Kodak Endura paper
+with metallic and lustre upgrades available, mounting and framing
+services.  sRGB profile.</td></tr>
+
+<tr><td><a href="http://www.ezprints.com">ezprints</a></td>
+<td>.29</td><td>.85</td><td>2.45</td><td>3.95</td><td>14.95</td><td>.85</td>
+<td>1.95+</td><td>Norcross, GA</td>
+<td>Fuji Frontier printing.  Pro-oriented high volume lab; huge
+selection of print sizes, provides ICC profile and free calibration
+prints.</td></tr>
+
+<tr><td><a href="http://www.ofoto.com">ofoto</a></td>
+<td>.25</td><td>.99</td><td>3.99</td><td></td><td>17.99</td><td>1.79</td>
+<td>1.49+</td><td>Emeryville, CA</td>
+<td>Kodak paper, Kodak Perfect Touch processing</td></tr>
+
+<tr><td><a href="http://www.snapfish.com">snapfish</a></td>
+<td>.19</td><td>.95-</td><td>3.79</td><td></td><td></td><td>1.79</td>
+<td>.99+</td><td>West Virginia</td>
+<td>Kodak paper, matte available, Kodak Royal paper +.05</td></tr>
+
+<tr><td><a href="http://www.shutterfly.com">shutterfly</a></td>
+<td>.29-</td><td>.99-</td><td>3.99-</td><td>7.99</td><td>17.99</td><td>1.79-</td>
+<td>1.79+</td><td>Hayward, CA</td>
+<td>Fuji Frontier printing, matte available, correction optional</td></tr>
+
+<tr><td><a href="http://www.photoaccess.com">photoaccess</a></td>
+<td colspan="8">Merged with photoworks</td></tr>
+
+<tr><td><a href="http://www.photoworks.com">photoworks</a></td>
+<td>.19</td><td>.99</td><td>2.99</td><td>9.95</td><td>17.95</td><td>.99</td>
+<td>2.50+</td><td>Seattle, WA</td>
+<td>Formerly known as Seattle Filmworks. &quot;Color enhancement&quot; processing.</td></tr>
+
+<tr><td><a href="http://www.winkflash.com">winkflash</a></td>
+<td>.16</td><td>.29</td><td>1.99</td><td>3.79 (10x15)</td><td></td><td>.39</td>
+<td>.99</td><td>Rhode Island</td>
+<td>Fuji paper, no color correction, sRGB profile</td></tr>
+
+<tr><td><a href="http://www.adoramapix.com">Adorama</a></td>
+<td>.19</td><td>.49</td><td>1.99</td><td>4.99</td><td></td><td>.99</td>
+<td>3.50+</td><td>New York City</td>
+<td>Kodak Royak paper, correction optional, FTP upload</td></tr>
+
+<tr><td><a href="http://www.nationalgeographic.com/labs/index.htm">National Geographic Labs</a></td>
+<td>.65-</td><td>5.95-</td><td>9.95-</td><td>13.95 (10x12)</td><td>29.95 inkjet</td><td></td>
+<td></td><td>Washington DC</td>
+<td>Fuji Frontier printing.  (Yes, it's THAT National Geographic.)</td></tr>
+
+<tr><td><a href="http://www.ritzpix.com">Ritz Camera</a></td>
+<td>.29</td><td>1.65</td><td>4.99</td><td>14.99</td><td></td><td>4.99</td>
+<td>.00</td><td>Local pickups</td>
+<td>Appears to be Fuji Frontier printing?</td></tr>
+
+</table>
+</div>
+
+</body>
+</html>

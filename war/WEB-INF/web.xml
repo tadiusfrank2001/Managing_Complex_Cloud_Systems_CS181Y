@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<web-app id="WebApp_ID" version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+
+  <display-name>photoprism</display-name>
+
+  <!-- 2021-09-14 mikey: we're not taking on ssl today
+  <security-constraint>
+    <web-resource-collection>
+      <url-pattern>/*</url-pattern>
+    </web-resource-collection>
+    <user-data-constraint>
+      <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+    </user-data-constraint>
+  </security-constraint>
+  -->
+
+  <filter>
+    <filter-name>RateLimiter</filter-name>
+    <filter-class>net.photoprism.RateLimiter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>RateLimiter</filter-name>
+    <servlet-name>token</servlet-name>
+    <servlet-name>imagebytag</servlet-name>
+  </filter-mapping>
+
+  <resource-ref>
+    <description>photo Postgres instance</description>
+    <res-ref-name>jdbc/postgres</res-ref-name>
+    <res-type>javax.sql.DataSource</res-type>
+    <res-auth>Container</res-auth>
+  </resource-ref>
+
+  <!-- this is better to set in server-wide web.xml
+  <filter>
+    <filter-name>HttpHeaderSecurity</filter-name>
+    <filter-class>org.apache.catalina.filters.HttpHeaderSecurityFilter</filter-class>
+    <init-param>
+      <param-name>hstsEnabled</param-name>
+      <param-value>false</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>HttpHeaderSecurity</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  -->
+
+  <servlet>
+    <servlet-name>browserest</servlet-name>
+    <servlet-class>net.photoprism.BrowseREST</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>browserest</servlet-name>
+    <url-pattern>/servlet/browserest</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>editrest</servlet-name>
+    <servlet-class>net.photoprism.EditREST</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>editrest</servlet-name>
+    <url-pattern>/rest/edit</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>histogram</servlet-name>
+    <servlet-class>net.photoprism.HistogramServlet</servlet-class>
+    <init-param>
+      <param-name>tuning</param-name>
+      <param-value>yes</param-value>
+    </init-param>
+    <init-param>
+      <param-name>debug</param-name>
+      <param-value>yes</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>histogram</servlet-name>
+    <url-pattern>/servlet/histogram</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>imagebytag</servlet-name>
+    <servlet-class>net.photoprism.ImageREST</servlet-class>
+    <init-param>
+      <param-name>baseurl</param-name>
+      <param-value>http://www.photoprism.net</param-value>
+    </init-param>
+    <init-param>
+      <param-name>pkeepcache</param-name>
+      <param-value>/srv/pkeep_cache/</param-value>
+    </init-param>
+    <init-param>
+      <param-name>pkeephost</param-name>
+      <param-value>nightfall.singingtree.com</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>imagebytag</servlet-name>
+    <url-pattern>/img/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>imagebytag</servlet-name>
+    <url-pattern>/i/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>location</servlet-name>
+    <servlet-class>net.photoprism.LocationREST</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>location</servlet-name>
+    <url-pattern>/rest/location</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>searchrest</servlet-name>
+    <servlet-class>net.photoprism.SearchREST</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>searchrest</servlet-name>
+    <url-pattern>/servlet/searchrest</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>token</servlet-name>
+    <servlet-class>net.photoprism.TokenServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>token</servlet-name>
+    <url-pattern>/servlet/token</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>upload</servlet-name>
+    <servlet-class>net.photoprism.UploadREST</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>upload</servlet-name>
+    <url-pattern>/rest/upload</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>tag</servlet-name>
+    <servlet-class>net.photoprism.TagREST</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>tag</servlet-name>
+    <url-pattern>/rest/tag/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>suggest</servlet-name>
+    <servlet-class>net.photoprism.SuggestREST</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>suggest</servlet-name>
+    <url-pattern>/rest/suggest</url-pattern>
+  </servlet-mapping>
+
+</web-app>

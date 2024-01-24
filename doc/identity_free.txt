@@ -1,0 +1,233 @@
+Definitions:
+
+PHOTO :: some random binary object that is to be protected.
+
+TAG :: an arbitrary short string that is meant to be understandable
+(e.g. "by:mikey").  They have ID numbers for the purpose of
+representing as a database foreign key, but they need nothing else.
+
+Tags are associated (or "applied", "attached", etc.) with photos in a
+many to many relationship.
+
+TOKEN :: a random string presented with any request for a photo (via
+an http cookie).  It is associated with exactly one tag and exactly
+one level of access from the set {read, download, write}.  Many tokens
+can coexist and all be presented in the same cookie.
+
+Tokens need to be long and random enough that they can't be
+brute-forced, under the assumption that an attacker can submit a few
+hundred per second to the server for validation.
+
+"read" or "download" tokens can have an expiration date.  "write"
+tokens cannot expire.
+
+CODE :: ("referral code") is a random string that is meant to be
+handled by humans.  It resolves to zero or one token with additional
+constraints such as an expiration date and a maximum usage count.  The
+server validates codes and returns a token on success.
+
+Codes need to be long and random enough to resist brute force
+guessing, under the assumption that an attacker can submit a few dozen
+per minute.
+
+WRITABLE :: a property of those tags where at least one token exists
+granting write permission.  This does not have to be all tags: a tag
+could have several read-only tokens that point to it and zero write
+tokens, thus representing a read-only view like a photo album.
+
+The rules that have to be enforced by the server are:
+
+(basic access controls)
+
+A1. A request to access a photo (the actual image or any of its
+    metadata) succeeds iff any of the presented tokens authorize at
+    least "read" access for a tag attached to that photo.
+
+A2. A request for the original unmodified photo file succeeds iff any
+    presented token authorizes at least "download" access for a tag
+    attached to that photo.
+
+A3. A request to modify the metadata of any photo (except for adding
+    or removing a tag) succeeds iff any presented token authorizes
+    "write" for a tag attached to that photo.
+
+A5. On any attempt to do a search, the results returned are filtered
+    according to the union of "read" permissions in the tokens
+    presented.
+
+A6. A request to store a new photo succeeds if the new photo is
+    associated with at least one tag for which the current user has
+    write permission.
+
+(rules for tag creation, deletion, and application)
+
+T1. A request to add tag "t" to photo "p" succeeds iff the current
+    user has a token granting write on p.
+
+T2. A request to delete tag "t" from photo "p" succeeds if the current
+    user has a token granting write on p.
+
+    T2a. After t is deleted from p, if p has no writable tags, then all
+         remaining tags are deleted from p and p is deleted.
+
+    T2b. After t is deleted from p, if t is now applied to zero photos, t
+         is deleted.
+
+T3. A request to create a new tag "t" succeeds if no tag with the same
+    name already exists, and if it is attached to a photo that already
+    has a tag that the current user can write.
+
+(rules for token creation and deletion)
+
+K1. A request to create, modify, or delete a token which resolves to
+    tag "t" at level "v" succeeds if the requesting user has at least
+    level "v" on all photos that are associated with tag "t".
+
+K2. A request to create, modify, or delete a code which resolves to
+    token "k" succeeds if the user has k.
+
+There are also a couple of conventions that should be honored by
+clients, but are not enforced by the server.  If the clients do
+otherwise, there is not a security issue, only the user experience
+becomes weird and confusing.
+
+UI1. A "delete photo" action in a UI should be interpreted as "delete
+     all tags for which current user has write permission."
+
+UI2. Any time a user creates a new token with write permission(K1),
+     that token should be added to the current user's session.
+
+This whole set of rules is tricky to understand and implement, but
+should allow somewhat intuitive behavior for the users.  Example
+workflows:
+
+==> Working on a simple private collection
+
+Mikey starts with a code that resolves to token TK1, which grants
+write permission for a tag named "by:mikey".  It was created at the
+installation of the server.  Mikey can upload photos that will all
+have the tag "by:mikey" (A6).  Mikey can delete photos he doesn't
+want to keep, by removing the "by:mikey" tag (T2).
+
+Mikey can create a new tag named "fnf" by applying it to one of the
+photos (T3).  He can go merrily along, applying(T1) or deleting(T2)
+"fnf" from any of the photos that carry the tag "by:mikey".
+
+[ mikey has token TK1 = write access to "by:mikey" ]
+
+==> Sharing a read-only subset of the private collection
+
+Later Mikey creates a new token TK2 with "read" access to "fnf"(K1).
+He also creates a single-use code that resolves to the new token(K2).
+
+He gives this code to Sarah.  Sarah redeems the code and can now see
+(read-only) all of the photos with the tag "fnf."
+
+TK2 can have an expiration date if Mikey sets one(K1).  This would
+cause Sarah's access to stop working at expiration.
+
+Or, the token life can be indefinite, while the referral code is
+limited.  This would mean that Sarah's access continues to work
+indefinitely as long as she has the TK2 cookie (basically, on the same
+browser without clearing cookies).  But the referral code would stop
+working after the time limit or use limit is reached.
+
+A referral code with a use-limit of 1 is good for writing on a piece
+of paper to give to Sarah.  It works once and never again, but Sarah's
+browser continues to work until she loses her cookies.
+
+A referral code with no use-limit, but a short expiration, is good for
+sharing an album with a group such as after an event.  You can send
+the code to the mailing list, and it works for everyone until it
+expires.  The people that used it to get in, will keep their access
+until they lose their cookies.  When somebody's email is compromised a
+year later, the code doesn't work.  (however, when their browser
+cookie store is compromised, the stolen tokens will continue to work.)
+
+==> Creating a shared collection that multiple people can modify
+
+So far:
+
+[ mikey has TK1 = write access to "by:mikey" ]
+[ sarah has TK2 = read  access to "fnf"      ]
+[ "fnf" photos are a subset of "by:mikey"    ]
+
+Now Mikey wants someone else to be able to add photos to "fnf".  He
+creates a new token TK3 which has write access to fnf.  (allowed by
+K1.)  As a write token, this isn't allowed to have an expiration date.
+Also, since his UI follows UI2, Mikey keeps a copy of TK3 for himself.
+
+He creates a code and gives it to Matt over a signal message.  Matt
+redeems it, and can now see all the "fnf" photos, same as Sarah.
+Plus, Matt can now upload new photos with the "fnf" tag(A6).
+
+Matt can also modify the captions and other metadata on any of the
+"fnf" photos.  This includes the ones that "belonged to" Mikey in the
+sense that they also have a "by:mikey" tag.  This may be surprising,
+but it is equivalent to giving edit access to a Google doc.
+
+If Matt tries to delete anything, he can remove the "fnf" tag, but
+cannot remove the "by:mikey" tag(T2).  So Matt can remove things from
+the "fnf" view, but can't totally delete any of "Mikey's" pictures.
+
+Meanwhile, Mikey can modify anything uploaded by Matt (or anyone else
+who has TK3)(T2).  Since these have only the "fnf" tag, which Mikey
+can delete, Mikey can delete these pictures completely.
+
+==> Creating a second private collection on the same server
+
+So far:
+
+[ mikey has TK1 = write access to "by:mikey" ]
+[ sarah has TK2 = read  access to "fnf"      ]
+[ mikey has TK3 = write access to "fnf"      ]
+[ matt  has TK3 = write access to "fnf"      ]
+[ "fnf" is no longer a subset of "by:mikey"  ]
+
+Matt has been uploading photos tagged "fnf", and now wants to store
+other stuff besides.  He is able to create a new tag "by:matt" by
+applying it to any of the photos that has "fnf"(T3).  (It might make
+the most sense to apply this to a photo that he took, but nothing
+enforces this.)  Right now, "by:matt" is a non-writable tag, meaning
+that either Matt or Mikey can add or delete it from any photo that
+they can see(T1, T2).
+
+But this changes if Matt creates a token TK4 with the ability to write
+to "by:matt", which he can(K1).  The tag "by:matt" is now writable,
+and per UI2, Matt has TK4 and can write to it.  Matt can now upload
+more photos that have only "by:matt" and not "fnf"(A6).  Mikey cannot
+see those, since he has no token for "by:matt".  The situation now:
+
+[ mikey has TK1 = write access to "by:mikey"       ]
+[ sarah has TK2 = read  access to "fnf"            ]
+[ mikey has TK3 = write access to "fnf"            ]
+[ matt  has TK3 = write access to "fnf"            ]
+[ matt  has TK4 = write access to "by:matt"        ]
+[ "fnf" is not a subset of "by:mikey" or "by:matt" ]
+
+At this point, Mikey can upload new pictures with the "by:mikey" or
+"fnf" tags(A6).  He can modify anything with either of those tags(A3).
+He can delete those tags, so if a photo has both "by:mikey" and "fnf",
+he can delete that photo.
+
+Sarah can see only the photos with the "fnf" tag.  Some of those also
+have a "by:mikey" or "by:matt" tag.  She can see that tag.
+
+Matt's situation is symmetric is Mikey: He can upload pictures with
+the "by:matt" or "fnf" tags, can modify anything with either of those
+tags, and can delete photos if they have only "by:matt" and "fnf"
+tags.
+
+This appears to function according to expectations for two separate
+accounts and an album shared between them.  Either Matt or Mikey can
+create new tokens and codes referring to "fnf," sharing that group of
+photos to more people (read or write).  Neither of them can see
+exactly who has access, of course.
+
+==> Downgrading a shared tag
+
+If there are no other unnamed contributors using the TK3 token to add
+to the "fnf" set, then TK3 isn't needed anymore.  Either Matt or Mikey
+can delete it(??)
+
+

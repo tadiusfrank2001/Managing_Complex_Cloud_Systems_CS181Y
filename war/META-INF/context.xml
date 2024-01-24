@@ -1,0 +1,12 @@
+<Context>
+  <Resource name="jdbc/postgres"
+            auth="Container"
+            type="javax.sql.DataSource"
+            factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
+            jdbcInterceptors="ConnectionState;StatementFinalizer(trace=true)"
+            driverClassName="org.postgresql.Driver"
+            url="jdbc:postgresql://127.0.0.1:5432/photo"
+            username="photoprism"
+            />
+</Context>
+            

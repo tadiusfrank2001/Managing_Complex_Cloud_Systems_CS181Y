@@ -1,0 +1,339 @@
+16 Sep 00 MAD -----
+
+This is the earliest date found in the old java servlet code which has
+eventually (in 2020) been garbage collected.  From the dates scattered
+across other 1.0-era servlets, the first frames-based site was
+completed across September 2000 to May 2001.
+
+7 Apr 03 MAD -----
+
+was trying to improve performace this weekend; changed default JDK to
+1.3.1 from 1.2.2. (I am doing this just by pointing /usr/local/jdk at
+whatever version is desired.)  Also upgraded tomcat to 3.3.1; this is
+in /usr/local/jakarta-tomcat3.3, since they claim major performance
+improvements.  I can't say I noticed any.
+
+Tried OpenJIT 1.1.16, which I installed from source, but this silently
+fails somewhere in JPEG encoding.  Apparently-valid JPEGs that are all
+black are created.  Running the same code in the interpreter works
+fine so it seems to be an OpenJIT problem.
+
+Changed to shujit which looks slower according to the published
+benchmarks but it does JPEG encoding correctly.  This was installed
+from ports (/usr/ports/java/shujit) and seems to have linked itself
+into all of the installed JDKs; the port is somewhat smarter than the
+OpenJIT port which didn't work at all.
+
+7 Dec 03 MAD -----
+
+trying the new, native-FreeBSD "Diablo" binary package of JDK 1.3.1.
+Apparently I did not record when I did this but am now running tomcat
+4.1.  Fixed a couple SQL bugs that probably got introduced with a
+postgresql upgrade somewhere.  Am trying to get the PJA toolkit to work
+in order to stop having to worry about a working X display on the server.
+
+8 Feb 05 MAD -----
+
+Clearly I haven't done a good job of keeping this file up to date.
+This week I have added the selectable stylesheets, converted passwords
+to hashes in the database, created the "Edit preferences" page to the
+HomeServlet, created the username field on the person table and made
+the LoginServlet recognize it, and rewritten the gallery selection
+mechanism so that a simple URL such as
+http://www.photoprism.net/gallery/mikey can take you directly to a 
+particular person's gallery.
+
+9 Feb 05 MAD -----
+
+Made minor changes to ExifReader, fixing the "flash" field which
+wasn't being set right and kludging for the new camera so that it
+shows up as "PENTAX *ist DS" instead of "PENTAX Corporation PENTAX
+*ist DS".  Rewrote updateExif() so that any fields not found in the
+output from jhead will not be modified, then added "Re-read EXIF
+information" button to file operations on photo edit page.  Pushing
+this button runs updateExif() on the current image, which restores the
+fields image.date, image.time, and photo.* except for photo.location
+which is unaffected.
+
+15 Jun 05 MAD -----
+
+now running tomcat4 with an AJP1.3 connector named jk2 from apache 2
+
+26 Aug 05 MAD -----
+
+finally bit the bullet and rewrote the important parts of ImageServlet
+to use JAI.  However I got tired of wandering around the maze of twisty
+little API documents, all alike, and ripped off somebody's example
+instead: https://jaistuff.dev.java.net/Code/operators/Scale.java.html.
+So the current ImageServlet appears to work, does real bicubic resampling
+instead of the cheapass nearest-neighbor that the AffineTransform
+seemed to be using, and appears to be much faster and more reliable than
+the previous attempt using AWT.  But I don't know what it is doing.  I
+don't even know how the RenderedOp object returned by the magical 
+JAI.create() method magically becomes a PlanarImage which turns into
+a BufferedImage which is an object that I can acutally use.  So whatever.
+
+So here is how ImageServlet works at present:  It uses the javax.mediaio
+package to decode the original JPEG file into a BufferedImage from AWT.
+It feeds this BufferedImage to the JAI.create() method along with 11
+secret herbs and spices I don't understand.  It converts the returned
+object back to another BufferedImage (which is necessary in order to
+get a Graphics2D context out of it so that you can draw on it).  It
+draws on the Graphics2D and uses javax.mediaio again to encode the final
+JPEG.
+
+By the way I ripped out the attempted Quicktime support.  That required
+JMF which is yet a fourth hugeass bloated kitchen-sink Sun extension..
+and can't do jack in a headless environment.  Genius design guys.  So
+it never worked at all and it was screwing up the stuff I was trying to
+do with the other three hugeass bloated Sun extensions, because it
+doesn't know about BufferedImage, only Image.
+
+8 Jul 08 MAD -----
+
+again it would appear I haven't been keeping this file up to date.  Latest
+changes are: add the ability to geocode photos using GPX track logs, which
+required dealing with timezones (until now the database used non-timezoned
+time fields), which required replacing the 'date' and 'time' columns with
+a single 'ts' (for timestamp, with time zone embedded).
+
+13 Feb 09 MAD -----
+
+rehabilitated the simpleviewer flash servlet, which isn't connected in the UI
+in any way, but can be reached at /servlet/search?fmt=flash.  Also added the
+ability to understand "i=1,2,3,4,5" as a "search" that just prescribes a list
+of IDs.  This lets you make cheesy "albums" by constructing a URL.
+
+27 Dec 09 MAD -----
+
+Much rewritten in the last few days.  This all started because something
+changed in S3 where it now rejects all attempts to read or write with some
+kind of problem about the signatures.  S3 was never much of a win and becomes
+a net loss with the new improved cable connection at home.  But the PIL
+(python) image rendering was much better than we could ever do in Java, so I
+changed pkeep to work from local disk only.
+
+Also changed the pkeep interface to include rendering instructions with
+each request.  16 bits of the md5 of the instructions is used to key the
+cache files, so if you change metadata, the next request for the image will
+naturally land on a different cache file name.  This eliminates the whole
+concept of stale cache files that have to be dealt with after every
+metadata change.
+
+The imagefile field in the image table should now be completely irrelevant.
+The Java servlets all blindly assume pkeep knows where to find images by ID.
+
+Also rearranged everything to work from Eclipse, which was pretty invasive.
+Am now using Eclipse to build and export war file, which means the Makefile
+and Makefile.bsd should be irrelevant.
+
+25 Jan 11 MAD -----
+
+Well it finally happened .. my dci.pomona.edu account lapsed and I lost
+access to the previous subversion history.  Now trying to upload the last
+snapshot from a client into a googlecode project.  We'll see if this works.
+
+11 Oct 15 MAD -----
+
+Well it finally happened .. googlecode is dead, so off we go to the latest
+CADT hosting solution, github.  We'll see if this works.
+
+17 Nov 18 MAD -----
+
+Made this go again after all of its pieces sat in a storage unit being
+eaten by mice for the past 2-3 years.  Surprisingly little trouble
+considering that everything has moved ahead by at least 2 major versions.
+Now running ok in Java 8, Tomcat 8, Python 2.7 with pillow taking the
+place of PIL, and Postgres 11.
+
+06 Mar 19 MAD -----
+
+am well into a Bootstrap 4/REST redesign and trying out some new weird
+ideas about identity-free sharing.
+
+04 Jan 20 MAD -----
+
+The "identity free" scheme, which uses tags and capability tokens
+instead of the traditional login/session cookies, is complete enough
+to go ahead with it.  Because of this and just generally 20+ years of
+feature creep, there is a huge amount of dead and broken code to clean
+up.  Am going to create a tag named "v3.0" and then start deleting.
+
+Servlets deleted that were just obsolete (mostly servlets that
+generated obsolete UI HTML or are no longer necessary):
+   AddLocationServlet
+   BrowseDateServlet
+   BrowseLatestServlet
+   BrowseLocationServlet
+   BrowsePersonServlet
+   BrowseServlet
+   ChangeGalleryServlet
+   DumpSessionServlet
+   EbayServlet
+   EditAlbumServlet
+   EmailServlet
+   GpxBrowserServlet
+   HomeServlet
+   LastBrowseServlet
+   LoginServlet
+   ManipulateImageServlet
+   OauthServlet
+   PersonServlet
+   SearchServlet
+   StylesheetServlet
+   UploadServlet
+   xml/AlbumXMLServlet
+   xml/EditFormsXMLServlet
+   xml/ImageDisplayXMLServlet
+   xml/PersonMagicXMLServlet
+
+Servlets that were nonfunctional, but contained features that have not
+been recreated, and may be needed for parts in the future:
+
+   DownloadServlet - for generating zip files of multiple photos to download
+   RssFeedServlet - if RSS should ever become cool again
+
+28 Mar 20 MAD -----
+
+Converted the image.ts column from 'timestamp with time zone' to just
+'timestamp'.  The varchar 'timezone' field is better for interactions,
+since it lets you put in 'US/Eastern' and have it come back out as
+'US/Eastern' rather than 'GMT-04' or whatever.  >99% of timestamps here
+are read directly from the EXIF tags, which come with no timezone
+information, so it was being faked anyway.  If there are any UI
+implications for the change, I have not dealt with them yet.
+
+11 Apr 20 MAD -----
+
+moved to Postgres 12, no problems yet known.
+
+18 Apr 20 MAD -----
+
+may have finally figured out that the reason for random database
+connection state problems is that:
+
++ JDBC javax.sql.Connection is not in any way thread safe
++ Tomcat starts as many execution threads as it wants, depending
+  on requests
++ Tomcat contains no magic to run different threads in different contexts
+  or otherwise fix this problem in any way
+
+Empirically, it looks like what you get is multiple threads acting on
+single instances of your servlet classes.  If they all inherit from a
+parent class, then there may only be one instance of that class, too.
+That plus the fact that javax.sql.Connection does nothing to lock or
+synchronize itself, makes it obvious enough that the entire application
+was sharing one connection, and threads had no protection from each
+other's transactions or connection state.
+
+To fix this, you have to manually construct a connection pool using a
+typical bloated bag of JNDI FactoryBeanClassLoaderFactory-style bullshit
+that invokes class loaders by name and scatters configuration across
+multiple magic XML files.  Cool.  But to my amazement it seems to be
+working on the first try.
+
+The outcome of all this is that I was able to stuff the database
+editing endpoint with zaproxy's 3500 "bad strings" at high speed without
+anything breaking.  It may now be possible to think about letting this
+see the internet?
+
+19 Apr 20 MAD -----
+
+Lots of trouble trying to figure out tomcat 9's behavior where it
+silently drops HTTP 2 connections if you send too many small packets,
+or any of a dozen other things that it has decided are abusive, and are
+also the default behavior of Chrome 80.  In a Chrome network-export,
+the failure looks like this:
+
+t=6262 [st=267]    HTTP2_SESSION_RECV_GOAWAY
+                   --> active_streams = 100
+                   --> debug_data = "[66 bytes were stripped]"
+                   --> error_code = "11 (ENHANCE_YOUR_CALM)"
+                   --> last_accepted_stream_id = 63
+                   --> unclaimed_streams = 0
+
+To get tomcat to comment on this, you will have to enable "fine" http2
+logging in logging.properties, then look through megabytes of trash
+to find:
+
+  FINE [https-openssl-apr-443-exec-5]
+  org.apache.coyote.http2.Http2UpgradeHandler.upgradeDispatch
+  Connection error
+  org.apache.coyote.http2.ConnectionException:
+  Connection [5], Too much overhead so the connection will be closed
+
+There is scattered evidence on the internet that this is causing other
+people problems with Chrome, although it "works in Firefox."  Eventually
+found that it works if you disable all varieties of "overhead protection"
+in the connector setup in server.xml:
+
+  <UpgradeProtocol className="org.apache.coyote.http2.Http2Protocol"
+                   overheadCountFactor="0"
+                   overheadDataThreshold="0"
+                   overheadWindowUpdateThreshold="0"
+                   />
+
+22 Apr 20 MAD -----
+
+Found that the following stack trace is happening because of random
+internet noise, people trying to stuff PHP exploit trash from 2005.
+Nothing to fix unless it's to suppress the log message.  Timestamps
+matched bad HTTP requests from access.log:
+
+20-Apr-2020 01:37:48.273
+21-Apr-2020 05:33:13.329
+21-Apr-2020 23:32:47.398
+
+INFO [http-nio-80-exec-7] org.apache.coyote.http11.Http11Processor.service
+Error parsing HTTP request header
+Note: further occurrences of HTTP request parsing errors will be logged at DEBUG level.
+  java.lang.IllegalArgumentException: Invalid character found in method name. HTTP method names must be tokens
+    at org.apache.coyote.http11.Http11InputBuffer.parseRequestLine(Http11InputBuffer.java:418)
+    at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:260)
+    at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+    at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:868)
+    at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1590)
+    at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+    at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+    at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+    at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+    at java.base/java.lang.Thread.run(Thread.java:834)
+
+31 Jul 20 MAD -----
+
+Made a big push and hacked in a batch editing function.  This caused
+"edit" to be reconsidered as a "view mode" of which there are now 4.
+There are a lot of UI issues now--ways to get to blank screens, or
+blank screens with unpopulated edit form, etc.  Hopefully these are
+all unreachable if your view is read-only.  The batch edit is working
+enough to make progress on the film scanning project that is now
+underway.
+
+-------------------
+
+TODO next include:
+
+[x] fix notification button to not count images you can't edit
+[ ] drop author column when you are sure it isn't needed
+[ ] make upload processing not just "wait in silence"
+
+possible or definite bugs:
+
+[x] tag edit areas go blank after an edit now
+[x] selection state is out of sync after completing a batch update
+[x] should reset to a non-edit "mode" when navigating to a new page
+[ ] on upload page, text in camera/process boxes is not stored
+[ ] server turns years like "2020" into 2020.0 sometimes .. why?
+[x] "wide" layout still sometimes fails to fit the sidebar
+[x] figure out how to handle suggested tags in batch aggregation
+
+Tomcat logs complaining about unregistering JDBC drivers may be related
+to the following:
+
+"The list of drivers in java.sql.DriverManager is also a known source
+of memory leaks. Any Drivers registered by a web application must be
+deregistered when the web application stops. Tomcat will attempt to
+automatically discover and deregister any JDBC drivers loaded by the
+web application class loader when the web application stops. However,
+it is expected that applications do this for themselves via a
+ServletContextListener."

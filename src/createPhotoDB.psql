@@ -1,0 +1,222 @@
+/* For PostgreSQL you have to create the photo database yourself
+   with the createdb command line tool:
+
+   $ createdb photo
+
+   Then you will need to create a role that can read and write this
+   database:
+
+   $ psql -U postgres
+   postgres=# CREATE USER photoprism;
+   postgres=# GRANT ALL ON DATABASE photo TO photoprism;
+
+   Then use your new role and database to execute this script:
+
+   $ psql -U postgres -f thisfile photo
+
+   The order of the CREATEs might seem confusing, but we have to
+   avoid all forward references.  Hence the tables with few to no
+   dependencies have to be created first.  Be sure to check this
+   if you add any REFERENCES fields to any tables.
+ */
+
+-- the DROP TABLEs are in reverse order and here to make the whole
+-- script idempotent.
+
+DROP TABLE IF EXISTS ImageTag;
+DROP TABLE IF EXISTS Token;
+DROP TABLE IF EXISTS Tag;
+DROP TABLE IF EXISTS UserRestrict;
+DROP TABLE IF EXISTS ImageViews;
+DROP TABLE IF EXISTS GpsLog;
+DROP TABLE IF EXISTS ImageSubject;
+DROP TABLE IF EXISTS Image;
+DROP TABLE IF EXISTS Location;
+DROP TABLE IF EXISTS Restriction;
+DROP TABLE IF EXISTS Person;
+DROP SEQUENCE IF EXISTS seq_imageid;
+
+CREATE TABLE Person
+(
+  PersonID	SERIAL PRIMARY KEY,
+  FirstName     VARCHAR(32),
+  LastName      VARCHAR(32),
+  Phone         VARCHAR(15),
+  Address1      VARCHAR(50),
+  Address2      VARCHAR(50),
+  City          VARCHAR(30),
+  State         CHAR(2),
+  Zip           CHAR(10),
+  Email		VARCHAR(64),
+  Username      VARCHAR(16)
+);
+
+INSERT INTO Person (PersonID, FirstName, LastName)
+VALUES (1, 'Mystery', 'Person');
+
+CREATE TABLE Restriction
+(
+  RestrictID	SERIAL PRIMARY KEY,
+  Description	VARCHAR(64),
+  Owner		INT NOT NULL
+);
+
+INSERT INTO Restriction (restrictid, description, owner) VALUES (1, 'Public', 1);
+INSERT INTO Restriction (restrictid, description, owner) VALUES (2, 'Not published', 1);
+INSERT INTO Restriction (restrictid, description, owner) VALUES (3, 'Unlisted public', 1);
+
+CREATE TABLE Location
+(
+  LocationID	SERIAL PRIMARY KEY,
+  Description	VARCHAR(64) NOT NULL,
+  Parent	INT REFERENCES Location
+);
+
+CREATE INDEX idx_parent ON Location (Parent);
+
+INSERT INTO Location (LocationID, Description, Parent) VALUES (1, 'Earth', null);
+
+CREATE TABLE Image
+(
+  imageid	INT PRIMARY KEY,
+  author        INT NOT NULL REFERENCES Person,
+  imagefile     VARCHAR(255) NOT NULL,
+  width		INT,
+  height	INT,
+  title         VARCHAR(100),
+  newimage	BOOLEAN,
+  restriction	INT REFERENCES Restriction,
+  size		INT,
+  caption       TEXT,
+  originalfile  VARCHAR(255),
+  rotation      INT NOT NULL DEFAULT 0 CHECK(Rotation IN (0, 90, 180, 270)),
+  timezone	VARCHAR(100),
+  deleted	TIMESTAMP WITH TIME ZONE,
+  aperture      VARCHAR(32),
+  shutter       VARCHAR(32),
+  exposure      VARCHAR(64),
+  flash         BOOLEAN,
+  film          VARCHAR(32),
+  process	VARCHAR(32),
+  metering     	VARCHAR(32),
+  camera        VARCHAR(32),
+  location      INT REFERENCES Location,
+  focallength	VARCHAR(64),
+  latitude	DOUBLE PRECISION,
+  longitude  	DOUBLE PRECISION,
+  altitude   	DOUBLE PRECISION,
+  gpskey        BOOLEAN DEFAULT false,
+  watermark	VARCHAR(64),
+  ts		TIMESTAMP
+);
+
+CREATE INDEX idx_imgloc ON Image (location);
+
+CREATE SEQUENCE seq_imageid;
+
+CREATE TABLE ImageSubject
+(
+  PSID		SERIAL PRIMARY KEY,
+  Image		INT NOT NULL REFERENCES Image,
+  Subject	INT NOT NULL REFERENCES Person,
+  Description   VARCHAR(50)
+);
+
+CREATE TABLE GpsLog
+(
+  GpsLogID	SERIAL PRIMARY KEY,
+  Owner		INT NOT NULL REFERENCES Person,
+  StartTime	TIMESTAMP WITH TIME ZONE,
+  EndTime	TIMESTAMP WITH TIME ZONE,
+  Size		INT NOT NULL,
+  LogFile	VARCHAR(255) NOT NULL
+);  
+
+CREATE TABLE ImageViews
+(
+  ViewID	SERIAL PRIMARY KEY,
+  Image		INT NOT NULL REFERENCES Image,
+  Person	INT REFERENCES Person,
+  Size		INT NOT NULL,
+  ViewTime	TIMESTAMP DEFAULT now(),
+  RemoteHost	VARCHAR(128)
+);
+
+CREATE TABLE UserRestrict
+(
+  URID		SERIAL PRIMARY KEY,
+  Person	INT NOT NULL REFERENCES Person,
+  Restriction   INT NOT NULL REFERENCES Restriction
+);
+
+-- give anonymous users permission to see Public images only
+
+INSERT INTO UserRestrict (Person, Restriction) VALUES (1, 1);
+
+-- 2019-02-23 don't know if this will turn out to be a good idea,
+-- we'll see.
+--
+-- The existing system is: every Image maps to exactly one Author
+-- (=owner) and one Restriction.  (the awkwardly named "Restriction"
+-- was something like "public" or "friends only".)  Meanwhile each
+-- Person has been assigned zero or more Restrictions in the
+-- userrestrict table.  Now each server request carries with it the
+-- IDs of the "current user" and "current gallery."  The server will
+-- allow an image to be displayed if the image's Restriction is a
+-- member of the set of Restrictions assigned to the "current user."
+-- It will allow the image to be modified if the "current user" is the
+-- Author.
+--
+-- The new plan is: every Image is assigned one or more Tags.  A Token
+-- is an association of a Tag with either read or read-write
+-- permission.  A request from a browser can bear one or more Tokens.
+
+
+CREATE TABLE Tag
+(
+  id		SERIAL PRIMARY KEY,
+  Tag		VARCHAR(15),
+  Description	VARCHAR(255)
+);
+
+CREATE TABLE Token
+(
+  id		SERIAL PRIMARY KEY,
+  Token		CHAR(12) UNIQUE NOT NULL,
+  Level		INT NOT NULL DEFAULT 0,
+  Tag		INT NOT NULL REFERENCES Tag,
+  RefCode	VARCHAR(15),
+  RefCount	INT NOT NULL DEFAULT 0,
+  MaxRef	INT,
+  Expiration	TIMESTAMP
+);
+
+CREATE TABLE ImageTag
+(
+  id		SERIAL PRIMARY KEY,
+  Image		INT NOT NULL REFERENCES Image,
+  Tag		INT NOT NULL REFERENCES Tag
+);
+  
+CREATE UNIQUE INDEX imagetag_dedup ON ImageTag (Image, Tag);
+
+-- 2020-01-14 Potentially big danger: postgres 9.1 changed the
+-- default behavior to not recognize the escape sequence \' for a
+-- single quote in a string literal.
+--
+-- The actual SQL specification is '', which is what all code written
+-- by mikey uses.  But the JDBC driver generates \' in
+-- PreparedStatements.  Now that the \ is ignored, you have a SQL
+-- injection problem if you, like an idiot, used the "recommended" way
+-- to prevent SQL injection.
+--
+-- The old behavior, which interprets backslash escapes everywhere,
+-- can be obtained by changing this setting.  But this is obviously a
+-- bad bug in the JDBC driver.  Even when it is fixed, it seems
+-- pointlessly dangerous to disable backslash escapes in string
+-- literals.
+--
+-- (update) OK good news, the bug was fixed somewhere between 2004
+-- and 2020.
+--
+-- ALTER USER photoprism SET STANDARD_CONFORMING_STRINGS TO OFF;

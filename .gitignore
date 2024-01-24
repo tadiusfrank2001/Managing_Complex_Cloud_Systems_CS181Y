@@ -1,0 +1,6 @@
+*~
+\#*#
+*.pyc
+photo.war
+war/WEB-INF/classes
+war/javadoc

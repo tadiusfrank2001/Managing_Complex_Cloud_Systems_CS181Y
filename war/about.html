@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+<head>
+<title>About photoprism.net</title>
+<link rel=stylesheet type="text/css" href="styles/greysunmoon.css" />
+<style type="text/css">
+div { margin-top: 20px; }
+</style>
+</head>
+<body>
+<div>
+<h3><a id="why">Why is this better than some other photo album
+site?</a></h3>
+
+<p>First of all, at the time that I started it (May 2001), there were
+no other comparable online photo albums except for some rudimentary
+efforts by print companies like Ofoto.  Digital cameras have become
+far more common since then, and today there are many more ways of
+managing their output than there used to be.  I still like my own
+server for reasons that include the following:</p>
+
+<ul>
+<li>It is not commercial.  <!--Except for the <a href="#payola">affiliate
+ad</a> on the front page--> All your pictures are displayed free of
+junk advertising clutter.  The lack of profit motive leads naturally
+to other features, such as...</li>
+<li>There is an exit path.  You can easily recover the original files,
+exactly as you uploaded them, individually or in archives.  This frees
+you from having to keep your own backup copies in case you ever decide
+you want to switch to iPhoto, another web site, etc.  What would
+happen if you had hundreds of pictures in an Ofoto album, for example,
+and Ofoto went out of business?  Or if they decided to start charging
+a subscription fee to keep accessing your album?</li>
+<li>There is no need to prepare thumbnails or do any other
+preprocessing.  The server resamples the original image file on the
+fly to any size that you request.</li>
+<li>The server can do watermarking.  If you choose, all your pictures
+are displayed with an embedded copyright message.  More intrusive
+watermarks could be easily devised if this was desired.</li>
+<li>Pictures are easily integrated with other Web pages.  Simple
+interfaces are provided that let you embed static images or
+dynamically selected ones (e.g. &quot;Latest pictures I've
+posted&quot;) on any pages anywhere.</li>
+<li>It has enormous capacity.  I designed the server with the
+intention of using it to store every photograph I take in my entire
+life.  It will scale easily to hundreds of thousands of images,
+limited only by disk space.</li>
+<li>It provides for privacy.  You can store every photograph you have,
+even the ones that you don't want posted on the Internet for some
+reason. You can select whether to make each individual image visible
+to everybody, nobody, or only certain people of your choosing.</li>
+<li>The multiple indexing and browsing interfaces exceed anything I
+have seen in other picture galleries.</li>
+<li>The technical information stored by the digital camera (date,
+time, shutter speed, aperture, etc.) is automatically extracted and
+made visible.</li>
+<li>It is open source.  I will provide all the needed materials to
+anybody else that wants to run their own server.  This means that if
+you don't like the way the site develops, or if I lose interest, or if
+I am hit by a bus, anybody else can continue to maintain and improve
+the server software.</li>
+</ul>
+</div>
+
+<div>
+<h3><a id="prints">Buying prints</a></h3>
+
+<p>If you would like to have prints made, please read the information
+on the <a href="help.html#prints">help page</a>.</p>
+</div>
+
+
+<!--<div>
+<h3><a id="payola">Payola</a></h3>
+<p><a
+href="http://click.linksynergy.com/fs-bin/click?id=JrDnii9hMLY&offerid=53479.10000067&subid=0&type=4"><IMG
+border="0"  width="125" height="125" alt="Get 15 FREE 4 x 6 prints" align=right
+src="http://ad.linksynergy.com/fs-bin/show?id=JrDnii9hMLY&bids=53479.10000067&subid=0&type=4"></a>
+Everyone who uses photoprism to store or view photographs is receiving
+this service for free.  Unfortunately it is somewhat expensive to
+provide, so I am limited in how many accounts I can support.  If you
+would like to help offset the costs of operating this site, please
+consider using the ads to place an order with Shutterfly.
+Shutterfly pays me $6 for each new customer registration and 10% of
+each order you place in your first year as a customer.</p>
+</div>-->
+
+<div>
+<h3><a id="dmca">DMCA Agent</a></h3>
+
+<p>We believe that almost all of the images published here are
+original work, in most cases directly from the digital camera of the
+owner.  In the unlikely event that you believe an image infringes your
+copyright, please send written notification to the following
+address:</p>
+
+<p>Photoprism.net DMCA Agent<br>
+c/o Michael Dickerson<br>
+310 N Indian Hill Blvd Ste. 203<br>
+Claremont, CA 91711</p>
+</div>
+
+<div>
+<h3><a id="howworks">How this works / Acknowledgements</a></h3>
+<p>Photoprism is written in <a href="http://java.sun.com">Java
+servlets</a> and stores its data in the
+<a href="http://www.postgresql.org">PostgreSQL</a> 
+relational database.  It should be portable to any operating system or
+application platform that provides a Java servlet container.  The
+original server at <a
+href="http://www.photprism.net">www.photoprism.net</a> ran the <a
+href="http://www.apache.org">Apache Tomcat</a> servlet container on <a
+href="http://www.freebsd.org">FreeBSD</a>.  In the summer of 2004, it
+was moved to <a href="http://www.debian.org">Debian GNU/Linux</a> to
+take advantage of the much faster <a
+href="http://www.ibm.com/java">IBM JDK</a>.</p>
+<p>The Flash browser interface is based on <a href="http://www.airtightinteractive.com/simpleviewer">SimpleViewer</a> by Felix
+Turner.</p>
+<p>Cross-browser support for XMLHttpRequest is provided by a script written by <a href="http://www.scss.com.au/family/andrew/webdesign/xmlhttprequest/">Andrew Gregory</a>.</p>
+<p>Some graphics are from <a href="http://www.eosdev.com">Eos Development</a>.</p>
+
+<h3>Get the source code</h3>
+
+<p>I intend to make the photoprism site available as open source
+software under the GNU GPL, but haven't yet bothered to package it up
+or write much internal documentation, except for <a href="/docs">Javadoc markup</a>.
+You can retrieve the source code and all of my working files through
+subversion from this URL:</p>
+
+<p><a
+href="https://svn.cs.pomona.edu/sys/src/photoprism">https://svn.cs.pomona.edu/sys/src/photoprism</a>
+</p>
+
+<p>You may consider any files you check out from subversion to be
+licensed under the GNU GPL version 2.0.  Please contact me if you are
+interested in this, since I would like to work with you.</p>
+
+<p align="center"><a href="http://jakarta.apache.org/tomcat/">
+<img src="graphics/tomcat.gif" width="141" height="100" alt="Jakarta Tomcat" />
+</a> <a href="http://www.freebsd.org">
+<img src="graphics/daemon-phk.png" width="92" height="100" alt="FreeBSD" />
+</a> <a href="http://www.debian.org">
+<img src="graphics/debian-logo.png" width="81" height="100" alt="Debian" />
+</a></p>
+</div>
+
+</body>
+</html>
