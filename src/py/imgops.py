@@ -44,7 +44,7 @@ def render(oldfile, newfile, size, instructions):
 
   try:
     im = im.resize( (neww, newh), Image.ANTIALIAS )
-  except IOError, e:
+  except IOError as e:
     raise Error('IOError from PIL: %s' % e)
 
   for step in instructions.split('\n'):

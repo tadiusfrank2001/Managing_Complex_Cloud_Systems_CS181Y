@@ -12,12 +12,13 @@
 #
 # 2020-07-28 mikey: this is what you are looking for:
 # python2 pkeep_local.py -w 2 -c /srv/photo/pkeep_cache/ -o /srv/photo/pkeep_orig/
+# 2022-11-19 mikey: rewriting for python3, sigh
 
-import BaseHTTPServer
-import Queue
 import getopt
-import md5
+import hashlib
+import http.server
 import os
+import queue
 import socket
 import sys
 import threading
@@ -53,19 +54,18 @@ VARS = {
   'render_instructions': '',
 } # Yes, it's spelled 'vars'.  Why do you ask?
 
-req_queue = Queue.Queue()
-ans_queue = Queue.Queue()
+req_queue = queue.Queue()
+ans_queue = queue.Queue()
 log_buf = []
-xorig_image_root = None
 
 INFO, WARN, ERR = 0, 1, 2
 
 def log(msg, level=INFO):
   global log_buf
   lvl = ('I', 'W', 'E')[level]
-  now = time.strftime('%y%m%d %H:%M.%S')
-  msg = ' '.join([lvl, now, msg])
-  print msg
+  now = time.strftime('%Y%m%d %H:%M.%S')
+  msg = ' '.join(['pkeep', lvl, now, msg])
+  print(msg)
   log_buf.append(msg)
   log_buf = log_buf[-100:]
 
@@ -81,17 +81,15 @@ class RequestSpec:
     self.time  = time.time()
     self.response = None
 
-  def GetOrigFile(self):
-    global orig_image_root
-    return os.path.join(orig_image_root,
-                        str(self.id % 10),
-                        str((self.id / 10) % 10),
+  def GetOrigFile(self, orig_dir):
+    return os.path.join(orig_dir,
+                        str(self.id)[-1],
+                        str(self.id)[-2],
                         '%s.jpg' % self.id)
 
   def GetCacheFile(self, cache_dir):
-    fname = '%06d.%d.%s.jpg' % (self.id,
-                                self.size,
-                                md5.md5(SALT + self.inst).hexdigest()[-6:])
+    fp = hashlib.md5((SALT + self.inst).encode('utf-8')).hexdigest()[:6]
+    fname = '%06d.%d.%s.jpg' % (self.id, self.size, fp)
     return os.path.join(cache_dir, '%02d' % (self.id % 100), fname)
     
   def __str__(self):
@@ -102,11 +100,12 @@ class RequestSpec:
 def HandleUDP(text, addr):
   """When a packet comes in, parse it and queue it for a worker."""
 
+  assert type(text) == str
   try:
     args = [addr]
     args.extend([x.strip() for x in text.split(',')])
     rs = RequestSpec(*args)
-  except (ValueError, IndexError), e:
+  except (ValueError, IndexError) as e:
     log('ignoring bogus request from %s: %s' % (addr, text), level=ERR)
     log(str(e))
     return
@@ -116,7 +115,7 @@ def HandleUDP(text, addr):
   log('queued %s, %d in queue' % (rs, req_queue.qsize()), level=INFO)
 
 
-class VarsHandler(BaseHTTPServer.BaseHTTPRequestHandler):
+class VarsHandler(http.server.BaseHTTPRequestHandler):
 
   def do_GET(self):
     self.send_response(200, 'OK')
@@ -132,11 +131,11 @@ class VarsHandler(BaseHTTPServer.BaseHTTPRequestHandler):
       for k in keys: self.wfile.write('%s %s\n' % (k, VARS[k]))
       
 
-class VarsServer(threading.Thread, BaseHTTPServer.HTTPServer):
+class VarsServer(threading.Thread, http.server.HTTPServer):
 
   def __init__(self, addr, **kwargs):
     threading.Thread.__init__(self, **kwargs)
-    BaseHTTPServer.HTTPServer.__init__(self, addr, VarsHandler)
+    http.server.HTTPServer.__init__(self, addr, VarsHandler)
 
   def run(self):
     self.serve_forever()
@@ -144,9 +143,10 @@ class VarsServer(threading.Thread, BaseHTTPServer.HTTPServer):
 
 class ImageWorker(threading.Thread):
 
-  def __init__(self, cache_dir=None, **kwargs):
+  def __init__(self, orig_dir, cache_dir=None, **kwargs):
     threading.Thread.__init__(self, **kwargs)
     self.cache_dir = cache_dir
+    self.orig_dir = orig_dir
 
   def run(self):
     global req_queue
@@ -197,7 +197,7 @@ class ImageWorker(threading.Thread):
       for f in [ os.path.join(cachedir, x) for x in files ]:
         log('deleting: %s' % f)
         os.unlink(os.path.join(cachedir, f))
-    except OSError, e:
+    except OSError as e:
       log('failed to delete %s: %s' % (f, e))
       return str(e)
 
@@ -217,17 +217,17 @@ class ImageWorker(threading.Thread):
       VARS['fecache_hits'] += 1
       return 'file://%s' % cachefile
 
-    origfile = req.GetOrigFile()
+    origfile = req.GetOrigFile(self.orig_dir)
     if not os.path.exists(origfile):
       VARS['missing_files'] += 1
-      return 'OH NOES: can\'t find original image file'
+      return 'OH NOES: can\'t open original image %s' % origfile
 
     if req.size == 0: return 'file://%s' % origfile
 
     # Render image.
     try:
       imgops.render(origfile, cachefile, req.size, req.inst)
-    except imgops.Error, e:
+    except imgops.Error as e:
       log('Failed to render %s: %s' % (cachefile, e))
       return None
 
@@ -247,7 +247,7 @@ if __name__ == '__main__':
 
   # Start http status thread
   t = VarsServer(('', port), name='VarsServer')
-  t.setDaemon(True)
+  t.daemon = True
   t.start()
 
   # Prepare frontend cache tree if needed.
@@ -262,10 +262,7 @@ if __name__ == '__main__':
     log('-c (path to serving cache) is required.')
     sys.exit(1)
 
-  if opts['-o']:
-    global orig_image_root
-    orig_image_root = opts['-o']
-  else:
+  if not opts['-o']:
     log('-o (path to image storage root) is required.')
     sys.exit(1)
 
@@ -273,8 +270,8 @@ if __name__ == '__main__':
   threads = []
   while len(threads) < int(opts['-w']):
     log('starting worker thread')
-    t = ImageWorker(cache_dir=opts['-c'], name='Worker-%d' % len(threads))
-    t.setDaemon(True)
+    t = ImageWorker(opts['-o'], cache_dir=opts['-c'], name='Worker-%d' % len(threads))
+    t.daemon = True
     t.start()
     threads.append(t)
 
@@ -283,7 +280,7 @@ if __name__ == '__main__':
   try:
     s.setblocking(False)
     s.bind(('', port))
-  except socket.error, e:
+  except socket.error as e:
     log('can\'t bind to port %d: %s' % (port, e), level=ERR)
     sys.exit(1)
   log('listening on port %d/udp' % port)
@@ -292,6 +289,7 @@ if __name__ == '__main__':
     while True:
       try:
         msg, addr = s.recvfrom(1024)
+        msg = msg.decode('utf-8') # thanks again Python 3!
         if msg.startswith('KTHXBYE'): break
         HandleUDP(msg, addr)
       except socket.error:
@@ -300,14 +298,14 @@ if __name__ == '__main__':
       try:
         req = ans_queue.get(True, 0.1)
         msg = '%s,%s' % (req.req, req.response)
-        s.sendto(msg, req.addr)
+        s.sendto(msg.encode('utf-8'), req.addr)
         latency = time.time() - req.time
         log('served %s -> %s in %.3fs' % (req, req.response, latency))
         VARS['latency_total'] += time.time() - req.time
         VARS['latency_mean'] = VARS['latency_total'] / \
                                VARS['requests']
         del req
-      except Queue.Empty:
+      except queue.Empty:
         pass
 
   except KeyboardInterrupt:
