@@ -82,9 +82,14 @@ class RequestSpec:
     self.response = None
 
   def GetOrigFile(self, orig_dir):
+    print("id",self.id)
+    print("req",self.req)
+    print("size",self.size)
+    print("addr",self.addr)
+    print("response",self.response)
     return os.path.join(orig_dir,
-                        str(self.id)[-1],
-                        str(self.id)[-2],
+                        str(self.id % 10),
+                        str(int(self.id / 10) % 10),
                         '%s.jpg' % self.id)
 
   def GetCacheFile(self, cache_dir):
@@ -217,6 +222,7 @@ class ImageWorker(threading.Thread):
       VARS['fecache_hits'] += 1
       return 'file://%s' % cachefile
 
+    print("orig_dir:",self.orig_dir)
     origfile = req.GetOrigFile(self.orig_dir)
     if not os.path.exists(origfile):
       VARS['missing_files'] += 1

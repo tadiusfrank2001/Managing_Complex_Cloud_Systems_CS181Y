@@ -10,6 +10,8 @@ from PIL import Image, ImageDraw, ImageFile, ImageFilter, ImageFont
 
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
+unicode = str
+
 
 class Error(Exception): pass
 
@@ -28,7 +30,7 @@ def _AvgBrightness(img):
     hist = img.split()[1].histogram()
   else:
     hist = img.histogram()
-  total = sum([i * hist[i] for i in xrange(len(hist))])
+  total = sum([i * hist[i] for i in range(len(hist))])
   return total / sum(hist) # integer division is ok
 
 
