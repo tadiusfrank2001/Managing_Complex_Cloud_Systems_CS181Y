@@ -13,7 +13,9 @@ ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 class Error(Exception): pass
 
-
+# PIL will look in the current directory for the file Dustismo.ttf.
+# If you are crashing here with a 'resource not found' type exception,
+# try running pkeep from the directory with Dustismo.ttf.
 def _Font():
   return ImageFont.truetype('Dustismo.ttf', 16, encoding='unic')
 
