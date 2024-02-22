@@ -10,8 +10,6 @@ from PIL import Image, ImageDraw, ImageFile, ImageFilter, ImageFont
 
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
-unicode = str
-
 
 class Error(Exception): pass
 
@@ -82,7 +80,6 @@ def render(oldfile, newfile, size, instructions):
       # This is a lot easier than trying to get the encoding right
       # through Java -> S3 -> Python.
       if arg.find('(C)') >= 0 or arg.find('(c)') >= 0:
-        arg = unicode(arg)
         arg = arg.replace('(C)', u'\u00a9')
         arg = arg.replace('(c)', u'\u00a9')
 
