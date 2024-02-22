@@ -45,7 +45,7 @@ def render(oldfile, newfile, size, instructions):
     neww, newh = int(float(origw) / origh * size), size
 
   try:
-    im = im.resize( (neww, newh), Image.ANTIALIAS )
+    im = im.resize( (neww, newh), Image.LANCZOS )
   except IOError as e:
     raise Error('IOError from PIL: %s' % e)
 
@@ -57,7 +57,9 @@ def render(oldfile, newfile, size, instructions):
     if cmd.startswith('TEXT_'):
 
       font = _Font()
-      textw, texth = font.getsize(arg)
+      left, top, right, bottom = font.getbbox(arg)
+      textw = right - left
+      texth = bottom - top
       texty = im.size[1] - texth - 20
       if cmd.endswith('RIGHT'):
         textx = im.size[0] - textw - 20
@@ -80,7 +82,7 @@ def render(oldfile, newfile, size, instructions):
         color = 'black'
         
       # This is a lot easier than trying to get the encoding right
-      # through Java -> S3 -> Python.
+      # through browser -> Java -> Postgres -> Java -> udp -> Python.
       if arg.find('(C)') >= 0 or arg.find('(c)') >= 0:
         arg = arg.replace('(C)', u'\u00a9')
         arg = arg.replace('(c)', u'\u00a9')
