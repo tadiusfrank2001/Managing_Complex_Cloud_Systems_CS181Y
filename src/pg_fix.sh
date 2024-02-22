@@ -3,9 +3,13 @@
 # This script fixes common permissions problems that happen when
 # setting up a new site.
 #
-# Postgres authentication (pg_hba.conf) must be set up in a way that this PSQL
-# command works and gives you superuser permissions:
-
+# Prerequisites:
+# + sudo must work
+# + pkeep_local.py should be running
+# + tomcat should be running
+# + postgres should be running
+# + pg_hba.conf must be set up in a way that this PSQL command works and
+#   gives you superuser permissions:
 PSQL='psql -t photo postgres'
 
 if ! echo 'SELECT 1;' | ${PSQL} >/dev/null ; then
@@ -66,11 +70,14 @@ ${PSQL} < ${TMPFILE}
 echo
 echo 'Done.'
 
-PKEEP_OWNER=`ps auxw | grep pkeep_local.py | grep -v grep | cut -d' ' -f1`
+PKEEP_PS=`ps auxw | grep pkeep_local.py | grep -v grep`
+PKEEP_OWNER=`echo ${PKEEP_PS} | cut -d' ' -f1`
 if [ -z "${PKEEP_OWNER}" ]; then
     echo "Can't determine pkeep process owner.  Is it running?"
     exit 1
 fi
+PKEEP_ORIG=`echo ${PKEEP_PS} | fmt -w 1 | grep pkeep_orig`
+PKEEP_CACHE=`echo ${PKEEP_PS} | fmt -w 1 | grep pkeep_cache`
 
 TOMCAT_OWNER=`ps auxw | grep tomcat | grep -v grep | cut -d' ' -f1`
 if [ -z "${TOMCAT_OWNER}" ]; then
@@ -78,20 +85,31 @@ if [ -z "${TOMCAT_OWNER}" ]; then
     exit 1
 fi
 
-echo "Looks like your process owners are:"
-echo "  pkeep is run by ${PKEEP_OWNER}"
-echo "  tomcat is run by ${TOMCAT_OWNER}"
-echo
-echo "Does this look right?  Enter to proceed, Ctrl-C to cancel."
+cat <<EOF
+Looks like your process owners are:
+  pkeep is run by ${PKEEP_OWNER}
+  tomcat is run by ${TOMCAT_OWNER}
+
+Looks like your jpeg storage directories are:
+  pkeep_orig  is at: ${PKEEP_ORIG}
+  pkeep_cache is at: ${PKEEP_CACHE}
+
+Does this look right?  Enter to proceed, Ctrl-C to cancel.
+EOF
 read TRASH
 
-echo "Setting all of /srv/photo/pkeep_cache to be owned by ${PKEEP_OWNER}"
-sudo chown -R ${PKEEP_OWNER}:${PKEEP_OWNER} /srv/photo/pkeep_cache
-echo "Setting all of /srv/photo/pkeep_orig to be owned by ${TOMCAT_OWNER}"
-sudo chown -R ${TOMCAT_OWNER}:${TOMCAT_OWNER} /srv/photo/pkeep_orig
-echo "Setting all directories in /srv/photo to 755"
-sudo find /srv/photo -type d -exec chmod 755 {} \;
-echo "Setting all files in /srv/photo to 644"
-sudo find /srv/photo -type f -exec chmod 644 {} \;
+echo "Setting all of ${PKEEP_CACHE} to be owned by ${PKEEP_OWNER}"
+sudo chown -R ${PKEEP_OWNER}:${PKEEP_OWNER} ${PKEEP_CACHE}
+echo "Setting all of ${PKEEP_ORIG} to be owned by ${TOMCAT_OWNER}"
+sudo chown -R ${TOMCAT_OWNER}:${TOMCAT_OWNER} ${PKEEP_ORIG}
+echo "Setting all directory permissions to 755 and all files to 644"
+sudo find ${PKEEP_ORIG} -type d -exec chmod 755 {} \;
+sudo find ${PKEEP_CACHE} -type d -exec chmod 755 {} \;
+sudo find ${PKEEP_ORIG} -type f -exec chmod 644 {} \;
+sudo find ${PKEEP_CACHE} -type f -exec chmod 644 {} \;
 echo "Adding ${PKEEP_OWNER} to the ${TOMCAT_OWNER} group"
 sudo usermod -a -G ${TOMCAT_OWNER} ${PKEEP_OWNER}
+
+echo
+echo "Success! Some things might work better now."
+echo "SEE YOU SPACE COWBOY"
