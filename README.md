@@ -1,11 +1,11 @@
-### Managing-Complex-Cloud-Systems-CS181Y
+## Managing-Complex-Cloud-Systems-CS181Y
 + A practicum course designed to build and maintain the backend cloud services that are utilized to support and power websites (Site-Relability).
 + Gradually Scale cloud system using a relational database, additional copy of production servers, elastic file system, and load balancer.
 + Provide 24/7 monitoring and maintenance of website due to constant traffic spikes via bots, made 95% uptime each week.
 
-### Technology Used
+## Technology Used
 
-# Cloud Back-End
+### Cloud Back-End
 
 Amazon EC2 (Elastic Compute Cloud): Provides scalable virtual servers to host your website's backend logic, applications, and databases.
 
@@ -27,7 +27,7 @@ AWS Load Balancer: distributes incoming application traffic across multiple targ
 
 Nginx: high-performance web server and reverse proxy server. It's also used as a load balancer and HTTP cache. Mostly used for log information on the traffic via listening on our Port 443.
 
-# Site Monitoring
+## Site Monitoring
 
 PagerDuty: an incident management and response platform designed to help organizations handle operational issues and ensure that systems and services remain available and performant. 
 
