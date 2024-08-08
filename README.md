@@ -1,5 +1,5 @@
 ## Managing-Complex-Cloud-Systems-CS181Y
-+ A practicum course designed to build and maintain the backend cloud services that are utilized to support and power websites (Site-Relability).
++ A practicum course designed to build and maintain the backend cloud services that are utilized to support and power websites (Site-Relability Engineering).
 + Gradually Scale cloud system using a relational database, additional copy of production servers, elastic file system, and load balancer.
 + Provide 24/7 monitoring and maintenance of website due to constant traffic spikes via bots, made 95% uptime each week.
 
