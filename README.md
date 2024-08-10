@@ -1,11 +1,11 @@
 ## Managing-Complex-Cloud-Systems-CS181Y
 + A practicum course designed to build and maintain the backend cloud services that are utilized to support and power websites (Site-Reliability Engineering).
-+ Gradually Scale cloud system using a relational database, additional copy of production servers, elastic file system, and load balancer.
++ Gradually Scale our cloud system using a relational database, additional copy of production servers, elastic file system, and load balancer.
 + Provide 24/7 monitoring and maintenance of website due to constant traffic spikes via bots, made 95% uptime each week.
 
 ## Technology Used
 
-### Cloud Back-End
+### Cloud Back-End and Hosting
 
 Amazon EC2 (Elastic Compute Cloud): Provides scalable virtual servers to host your website's backend logic, applications, and databases.
 
