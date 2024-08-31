@@ -31,11 +31,11 @@
 
 `Nginx`: high-performance web server and reverse proxy server. It's also used as a load balancer and HTTP cache. Mostly used for log information on the traffic via listening on our Port 443.
 
-## Languages
+### Languages
 
 `Java`: OOP language used to write our `src` file which contains front-end code for our website's UI.
 
-## Site Monitoring
+### Site Monitoring
 
 `PagerDuty`: an incident management and response platform designed to help organizations handle operational issues and ensure that systems and services remain available and performant. 
 
