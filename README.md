@@ -33,7 +33,7 @@
 
 ### Languages
 
-`Java`: OOP language used to write our `src` file which contains front-end code for our website's UI.
+`JavaScript`: OOP language used to write our `src` file which contains front-end code for our website's UI.
 
 ### Site Monitoring
 
