@@ -14,6 +14,7 @@
 + Software Architecture
 + Service Monitoring (On-Call Experience)
 + Strong Understanding of Complex Systems (Software, Buisness Organization, etc.)
++ Cross Team Collaboration 
 
 ## Technology Used
 
