@@ -21,7 +21,7 @@
 
 `Amazon RDS (Relational Database Service)`: Provides managed relational databases like MySQL, PostgreSQL, and others.
 
-`Amazon Elastic File System (EFS)`: scalable file storage service provided by AWS (Amazon Web Services),  scales your storage capacity up or down as you add or remove files, without the need for manual intervention.
+`Amazon Elastic File System (EFS)`: scalable file storage service provided by AWS (Amazon Web Services), scales your storage capacity up or down as you add or remove files, without the need for manual intervention across mutliple instances.
 
 `AWS Load Balancer`: distributes incoming application traffic across multiple targets, such as Amazon EC2 instances, containers, and IP addresses. Mostly utilized for scaling up.
 
@@ -32,7 +32,7 @@
 
 `Pkeep`: a  cloud-based service or platform that allows users to manageand maintain Python packages in a development environment.
 
-#### Database
+### Database
 `PostgreSQL`: open-source relational database management system (RDBMS). Version 15.
 
 
