@@ -41,6 +41,10 @@
 
 `Pkeep`: a  cloud-based service or platform that allows users to manageand maintain Python packages in a development environment.
 
+### Operating System
+
+`Ubuntu Linux`: a Linux distribution designed to be user-friendly and accessible. We needed an OS with consistent version realeases.
+
 ### Database
 `PostgreSQL`: open-source relational database management system (RDBMS). Version 15.
 
