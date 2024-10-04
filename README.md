@@ -11,7 +11,7 @@
 
 ### Cloud Back-End and Hosting
 
-#### AWS Services
+### AWS Services
 
 `Amazon EC2 (Elastic Compute Cloud)`: Provides scalable virtual servers to host your website's backend logic, applications, and databases.
 
@@ -25,14 +25,14 @@
 
 `AWS Load Balancer`: distributes incoming application traffic across multiple targets, such as Amazon EC2 instances, containers, and IP addresses. Mostly utilized for scaling up.
 
-#### Servers
+### Servers
 `Apache Tomcat`: open-source web server and servlet container developed by the Apache Software Foundation.
 
 `Nginx`: high-performance web server and reverse proxy server. It's also used as a load balancer and HTTP cache. Mostly used for log information on the traffic via listening on our Port 443.
 
 `Pkeep`: a  cloud-based service or platform that allows users to manageand maintain Python packages in a development environment.
 
-### Database
+#### Database
 `PostgreSQL`: open-source relational database management system (RDBMS). Version 15.
 
 
@@ -40,7 +40,8 @@
 
 `JavaScript`: OOP language used to write our `src` file which contains front-end code for our website's UI.
 
-#### Site Monitoring Software
+
+### Site Monitoring Software
 
 `PagerDuty`: an incident management and response platform designed to help organizations handle operational issues and ensure that systems and services remain available and performant. 
 
