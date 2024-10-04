@@ -1,11 +1,12 @@
 # Managing-Complex-Cloud-Systems-CS181Y
 
 ## Overview
-+ A practicum course designed to build and maintain the backend cloud services and human teams that are utilized to support and monitor uptime of services.
-+ Learned the fundamentals of Cloud Engineering by building a AWS backend to host our assigned website.
-+ Learned the fundamentals of Site-Reliability by setting up a paging (PagerDuty) and web monitoring system (New Relic) to track uptime.
-+ Scaled up our cloud system using a relational database, additional copy of production servers, elastic file system, and load balancer to handle a simulated DDos attck with bots.
-+ Provided 24/7 monitoring and maintenance of website due to constant traffic spikes via bots, made 95% uptime each week for five weeks.
+1) A 15 week practicum course designed to build and maintain the backend cloud services and human teams that are utilized to support and monitor uptime of services.
+2) Coordinate with a team of three engineers to build and monitor our cloud backend.
++ Acquire the fundamentals of Cloud Engineering by building a AWS backend to host our assigned website.
++ Master the fundamentals of Site-Reliability Engineering by setting up a paging (PagerDuty) and web monitoring system (New Relic) to track uptime our assigned website.
++ Scale up our cloud system using a relational database, additional copy of production servers, elastic file system, and load balancer to handle a simulated DDos attck with bots.
++ Provide 24/7 monitoring and maintenance of website due to constant traffic spikes via bots, made 95% uptime each week for five weeks.
 
 ## Skills
 
