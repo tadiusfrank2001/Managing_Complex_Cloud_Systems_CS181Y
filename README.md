@@ -18,9 +18,9 @@
 
 ## Technology Used
 
-### Cloud Back-End and Hosting
+### 1. Cloud Back-End and Hosting
 
-### 1. AWS Services
+###  1a. AWS Services
 
 `Amazon EC2 (Elastic Compute Cloud)`: Provides scalable virtual servers to host your website's backend logic, applications, and databases.
 
@@ -34,27 +34,31 @@
 
 `AWS Load Balancer`: distributes incoming application traffic across multiple targets, such as Amazon EC2 instances, containers, and IP addresses. Mostly utilized for scaling up.
 
-### 2. Servers
+### 1b. Servers
 `Apache Tomcat`: open-source web server and servlet container developed by the Apache Software Foundation.
 
 `Nginx`: high-performance web server and reverse proxy server. It's also used as a load balancer and HTTP cache. Mostly used for log information on the traffic via listening on our Port 443.
 
 `Pkeep`: a  cloud-based service or platform that allows users to manageand maintain Python packages in a development environment.
 
-### 3. Operating System
+### 1c. Operating System
 
 `Ubuntu Linux`: a Linux distribution designed to be user-friendly and accessible. We needed an OS with consistent version realeases.
 
-### 4. Database
+### 1d. Database
 `PostgreSQL`: open-source relational database management system (RDBMS). Version 15.
 
 
-### 5. Languages
+### 1e. Languages
 
-`JavaScript`: OOP language used to write our `src` file which contains front-end code for our website's UI.
+`JavaScript`: multi-paradigm language used to write front-end code for our website's UI in our `src` folder (log in page, image display page, image upload page).
+`Java`: OOP language used to write the Java classes in our `src` folder for image proccessing (standard size, metadata collection for display, database addition, assign unique image ID) once uploaded through our website.
+`Pyhton`: interpreted programming language used to set up our pkeep application to manage both the original image data and a caching layer to enhance performance via quick retrieval.
+`MySql`: query language utilized to manage and store images and their metadata, images availaible in `art` folder.
+`Bash`:
 
 
-### 6. Site Monitoring Software
+### 2. Site Monitoring Software
 
 `PagerDuty`: an incident management and response platform designed to help organizations handle operational issues and ensure that systems and services remain available and performant. 
 
