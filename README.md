@@ -73,12 +73,12 @@
 
 Week 1 to 5: Build the Foundational AWS Backend using AWS Services and our code base.
 
-![Foundation Backend](https://github.com/tadiusfrank2001/Managing_Complex_Cloud_Systems_CS181Y/blob/main/Foundational%20AWS%20Backend.png)
+<img src="https://github.com/tadiusfrank2001/Managing_Complex_Cloud_Systems_CS181Y/blob/main/Foundational%20AWS%20Backend.png" alt="Alt Text" width="100" />
 
 
 Week 5 to 10: Setup Site Monitoring via PagerDuty and New Relic and assign 24/7 monitoring schedules for team.
 
-
+<img src="https://github.com/tadiusfrank2001/Managing_Complex_Cloud_Systems_CS181Y/blob/main/Scaled%20Up%20AWS%20Backend.png" alt="Alt Text" width="100" />
 
 Week 10 to 15: Scale up our Backend system to handle 1000 visitors simultaneously and a simulated DDos attack via bots.
 
