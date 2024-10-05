@@ -73,7 +73,7 @@
 
 Week 1 to 5: Build the Foundational AWS Backend using AWS Services and our code base.
 
-![Foundation Backend](Foundational AWS Backend.png)
+![Foundation Backend](https://github.com/tadiusfrank2001/Managing_Complex_Cloud_Systems_CS181Y/blob/main/Foundational%20AWS%20Backend.png)
 
 
 Week 5 to 10: Setup Site Monitoring via PagerDuty and New Relic and assign 24/7 monitoring schedules for team.
