@@ -52,10 +52,14 @@
 ### 1e. Languages
 
 `JavaScript`: multi-paradigm language used to write front-end code for our website's UI in our `src` folder (log in page, image display page, image upload page).
+
 `Java`: OOP language used to write the Java classes in our `src` folder for image proccessing (standard size, metadata collection for display, database addition, assign unique image ID) once uploaded through our website.
+
 `Pyhton`: interpreted programming language used to set up our pkeep application to manage both the original image data and a caching layer to enhance performance via quick retrieval.
+
 `MySql`: query language utilized to manage and store images and their metadata, images availaible in `art` folder.
-`Bash`:
+
+`Bash`: command-line shell and scripting language utilized to navigate and interact with our Linux system. We also used it to edit the `Makefile` in the `war` to compile all of the java classes, build a .war file and deploy all the assets to a test and prod environment.
 
 
 ### 2. Site Monitoring Software
