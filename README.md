@@ -71,6 +71,16 @@
 
 ## Project Timeline and Performance
 
+Week 1 to 5: Build the Foundational AWS Backend using AWS Services and our code base.
+
+![Foundation Backend](Foundational AWS Backend.png)
+
+
+Week 5 to 10: Setup Site Monitoring via PagerDuty and New Relic and assign 24/7 monitoring schedules for team.
+
+
+
+Week 10 to 15: Scale up our Backend system to handle 1000 visitors simultaneously and a simulated DDos attack via bots.
 
 
 
