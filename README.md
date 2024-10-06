@@ -16,7 +16,7 @@
 + Strong Understanding of Complex Systems (Software, Buisness Organization, etc.)
 + Cross Team Collaboration 
 
-## Technology Used
+## Technologies Used
 
 ### 1. Cloud Back-End and Hosting
 
@@ -69,7 +69,7 @@
 `New Relic`: a comprehensive observability platform that provides monitoring and performance management for applications, infrastructure, and digital experiences. It helps organizations gain insights into their systems, detect and troubleshoot issues, and optimize performance. 
 
 
-## Project Timeline and Performance
+## Project Timeline and Structure 
 
 **Week 1 to 5:** Build the Foundational AWS Backend using AWS Services and our code base.
 
