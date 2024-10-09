@@ -1,16 +1,16 @@
 # Managing-Complex-Cloud-Systems-CS181Y
 
 ## Basic Overview
-1) Participate in a 15-week practicum focused on building and maintaining backend cloud services and human teams to support service uptime monitoring.
-2) Coordinate with a team of three engineers to build and monitor our cloud backend.
-3) Acquire the fundamentals of Cloud Engineering by building a AWS backend to host our assigned website.
-4) Master the fundamentals of Site-Reliability Engineering by setting up a paging (PagerDuty) and web monitoring system (New Relic) to track uptime for our assigned website.
-5) Scale up our cloud system using a relational database, additional copy of production servers, elastic file system, and load balancer to handle a simulated DDos attck with bots.
-6) Provide 24/7 monitoring and maintenance of website due to constant traffic spikes via bots, made 95% uptime each week for five weeks.
+1) Participate in a 15-week practicum focused on building and maintaining the backend cloud services and human teams that ensure service uptime and monitoring.
+2) Coordinate with a team of three engineers to build and monitor our cloud backend service.
+3) Acquire the fundamentals of Cloud Engineering by utilzing AWS Cloud Services to construct a backend service and database to host our assigned website.
+4) Master the fundamentals of Site-Reliability Engineering by setting up a paging (PagerDuty) and web monitoring system (New Relic) to track the uptime for our assigned website.
+5) Scale up our backend cloud service using a relational database, additional copies of production servers, elastic file system, and load balancer.
+7) Provide 24/7 monitoring and maintenance of website due to constant traffic spikes and simulated DDos attack via bots, made 95% uptime each week for five weeks.
 
 ## Skills
 + Site Reliability & Monitoring (On-Call Experience)
-+ Cloud Engineering & AWS
++ AWS & Cloud Engineering
 + Relational Databases
 + Software Architecture
 + Strong Understanding of Complex Systems (Software, Buisness Organization, etc.)
