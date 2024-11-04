@@ -109,8 +109,35 @@ Build the foundational backend serive using AWS Services and our code base. Our 
 
 ### Week 5 to 10:
 
-Setup Site Monitoring via PagerDuty and New Relic and assign 24/7 monitoring schedules for team. Our team scored a 95% uptime score!
-Here, we apply some of the core concepts of cybernectics to design a responsive and efficient incident response system to monitor our website.
+Setup Site Monitoring via PagerDuty and New Relic and assign 24/7 monitoring schedules for team. Here, we apply some of the core concepts of cybernectics (Control and Regulation, Information and Communication, Adaptation and Learning) to design a responsive and efficient incident response system to monitor our website and study the systems comprised of nonliving and living components.
+
+<img src="https://github.com/tadiusfrank2001/Managing_Complex_Cloud_Systems_CS181Y/blob/main/Incident_Response_System.png" alt="Alt Text" width="500"/>
+
+#### 1. Setting Up New Relic for Java (JVM w/ Tomcat)
+1. Download the New Relic Java Agent from the New Relic Site.
+2. Unzip the file and copy the `newrelic.jar` file to your application’s directory or a location accessible by your application. In our case, it's our Tomcat `lib`.
+3. Configure the agent by opening the `newrelic.yml` file and overwrite the existing configuration with a copy generated from the New Relic website that includes your New Relic License Key.
+4. Edit the `tomcat.conf` or the appropriate startup script for your Tomcat instance to include the New Relic agent. Find this line and edit the bash with the approriate filepath.
+``` bash
+    export JAVA_OPTS="$JAVA_OPTS -javaagent:/path/to/newrelic.jar"
+```
+5. Restart your Tomcat server to apply the changes!
+6. Check the Tomcat system log using `journalctl -eu` tomcat to confirm that the New Relic agent is initializing. Look for a line similar to:
+```vbnet
+
+com.newrelic INFO: New Relic Agent v7.2.0 is initializing...
+
+```
+7. Set up some policies in New Relic or use the default "golden signals" to track throughput, cpu usage, and web transaction percentages (latency).
+
+#### 2. Pager Duty for 24/7 alerting
+
+
+
+#### 3. Uptime Tracking
+
+
+
 
 
 
