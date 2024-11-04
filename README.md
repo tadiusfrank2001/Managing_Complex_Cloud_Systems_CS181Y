@@ -73,7 +73,7 @@
 
 **Week 1 to 5:** Build the foundational backend serive using AWS Services and our code base. Our flakeflickr site has serveral components a Postgres, file storage, a Java app, and a Python service process. Below I'll go into detail to explain the end-to-end process of storing, displaying, and retriving images on our site!
 
-### Transaction Flow for Image Display and Retrieval
+### 1. Transaction Flow for Image Display and Retrieval
 
 <img src="https://github.com/tadiusfrank2001/Managing_Complex_Cloud_Systems_CS181Y/blob/main/Foundational%20AWS%20Backend.png" alt="Alt Text" width="500" />
 
@@ -88,7 +88,7 @@
 
 
 
-### Transaction Flow for Uploading Images
+### 2. Transaction Flow for Uploading Images
 
 1. A web browser connects over HTTPS to port 443. It makes an HTTP POST request with a resource name such as `/rest/edit`.
 2. The fakeflickr webapp checks the authorization cookie, then updates the Postgres database with the new data.
@@ -98,7 +98,7 @@
 #### Comments on Design:
 
 + This whole transaction flow takes about 10ms!
-+ Some latency was added because we spinned our VM out of a US East (Ohio) location and not US West (N. California) region! (We were in Claremont, CA for context)
++ Some latency was added because we spinned our VM out of a US East (Ohio) location and not the US West (N. California) region! (We were in Claremont, CA for context)
 
 
 
