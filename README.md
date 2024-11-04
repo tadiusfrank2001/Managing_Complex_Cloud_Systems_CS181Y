@@ -90,6 +90,9 @@
 
 ### 2. Transaction Flow for Uploading Images
 
+<img src="https://github.com/tadiusfrank2001/Managing_Complex_Cloud_Systems_CS181Y/blob/main/Imageuploadtransctionflow.png" alt="Alt Text" width="500"/>
+
+
 1. A web browser connects over HTTPS to port 443. It makes an HTTP POST request with a resource name such as `/rest/edit`.
 2. The fakeflickr webapp checks the authorization cookie, then updates the Postgres database with the new data.
 3. If there are new files to store, fakeflickr writes them to the pkeep_orig directory. Note that no other processing happens right now–pkeep will do it on demand if the image is ever displayed later.
