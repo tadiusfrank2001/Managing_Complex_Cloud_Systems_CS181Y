@@ -26,8 +26,6 @@
 
 `AWS Lambda`: Allows you to run backend code without provisioning servers. It's often used for creating serverless architectures, where you only pay for the compute time you consume.
 
-`Amazon S3 (Simple Storage Service)`: Used to store and serve static content like images, videos, and other media files.
-
 `Amazon RDS (Relational Database Service)`: Provides managed relational databases like MySQL, PostgreSQL, and others.
 
 `Amazon Elastic File System (EFS)`: scalable file storage service provided by AWS (Amazon Web Services), scales your storage capacity up or down as you add or remove files, without the need for manual intervention across mutliple instances.
