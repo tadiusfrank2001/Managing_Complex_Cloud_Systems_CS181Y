@@ -122,13 +122,13 @@ Setup Site Monitoring via PagerDuty and New Relic and assign 24/7 monitoring sch
     export JAVA_OPTS="$JAVA_OPTS -javaagent:/path/to/newrelic.jar"
 ```
 5. Restart your Tomcat server to apply the changes!
-6. Check the Tomcat system log using `journalctl -eu` tomcat to confirm that the New Relic agent is initializing. Look for a line similar to:
+6. Check the Tomcat system log using `journalctl -eu tomcat` to confirm that the New Relic agent is initializing. Look for a line similar to:
 ```vbnet
 
 com.newrelic INFO: New Relic Agent v7.2.0 is initializing...
 
 ```
-7. Set up some policies in New Relic or use the default "golden signals" to track throughput, cpu usage, and web transaction percentages (latency).
+7. Set up some policies in New Relic (or use the default "golden signals") to track throughput, cpu usage, and web transaction percentages (latency).
 
 #### 2. Pager Duty for 24/7 alerting
 
@@ -143,6 +143,7 @@ com.newrelic INFO: New Relic Agent v7.2.0 is initializing...
 
 + We used New Relic because it's free and came with some good perks like custom policy creation to track other aspects of our application!
 + Pager Duty allowed us to assign a 24/7 On-Call schedule to respond quickly to app outages or anomalies in our policies!
++ We made 95% uptime! 
 
 
 ### Week 10 to 15:
