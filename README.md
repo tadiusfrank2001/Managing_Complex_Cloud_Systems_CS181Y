@@ -73,7 +73,7 @@
 
 ### Week 1 to 5:
 
-Build the foundational backend serive using AWS Services and our code base. Our flakeflickr site has serveral components a Postgres, file storage, a Java app, and a Python service process. Below I'll go into detail to explain the end-to-end process of storing, displaying, and retriving images on our site!
+Build the foundational backend service using AWS and our code base. Our flakeflickr site has serveral components a Postgres, file storage, a Java app, and a Python service process. Below I'll go into detail to explain the end-to-end process of storing, displaying, and retriving images on our site! The following diagrams are of our prod server!
 
 #### 1. Transaction Flow for Image Display and Retrieval
 
