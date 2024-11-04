@@ -71,9 +71,11 @@
 
 ## Project Timeline and Structure 
 
-**Week 1 to 5:** Build the foundational backend serive using AWS Services and our code base. Our flakeflickr site has serveral components a Postgres, file storage, a Java app, and a Python service process. Below I'll go into detail to explain the end-to-end process of storing, displaying, and retriving images on our site!
+### Week 1 to 5:
 
-### 1. Transaction Flow for Image Display and Retrieval
+Build the foundational backend serive using AWS Services and our code base. Our flakeflickr site has serveral components a Postgres, file storage, a Java app, and a Python service process. Below I'll go into detail to explain the end-to-end process of storing, displaying, and retriving images on our site!
+
+#### 1. Transaction Flow for Image Display and Retrieval
 
 <img src="https://github.com/tadiusfrank2001/Managing_Complex_Cloud_Systems_CS181Y/blob/main/Foundational%20AWS%20Backend.png" alt="Alt Text" width="500" />
 
@@ -88,7 +90,7 @@
 
 
 
-### 2. Transaction Flow for Uploading Images
+#### 2. Transaction Flow for Uploading Images
 
 <img src="https://github.com/tadiusfrank2001/Managing_Complex_Cloud_Systems_CS181Y/blob/main/Imageuploadtransctionflow.png" alt="Alt Text" width="500"/>
 
@@ -105,9 +107,16 @@
 
 
 
-**Week 5 to 10:** Setup Site Monitoring via PagerDuty and New Relic and assign 24/7 monitoring schedules for team. Our team scored a 95% uptime score!
+### Week 5 to 10:
 
-**Week 10 to 15:** Scale up our Backend system to handle 1000 visitors simultaneously for 15mins and a simulated DDos attack via bots. Below is a diagram of scaled up system!
+Setup Site Monitoring via PagerDuty and New Relic and assign 24/7 monitoring schedules for team. Our team scored a 95% uptime score!
+Here, we apply some of the core concepts of cybernectics to design a responsive and efficient incident response system to monitor our website.
+
+
+
+### Week 10 to 15:
+
+Scale up our Backend system to handle 1000+ visitors simultaneously for 15mins and a simulated DDos attack via bots. Below is a diagram of scaled up system!
 
 <img src="https://github.com/tadiusfrank2001/Managing_Complex_Cloud_Systems_CS181Y/blob/main/Scaled%20Up%20AWS%20Backend.png" alt="Alt Text" width="500" />
 
