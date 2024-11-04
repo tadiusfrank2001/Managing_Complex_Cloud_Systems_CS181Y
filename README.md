@@ -132,13 +132,17 @@ com.newrelic INFO: New Relic Agent v7.2.0 is initializing...
 
 #### 2. Pager Duty for 24/7 alerting
 
+1. Create a Service in Pager Duty and reterive an integration key.
+2. Log into New Relic and navigate to Alerts & AI to create a policy that tracks a number of processes (throughput, latency, etc.)
+3. Within that Alert Policy, naviagte to "Add a notification channel" > Choose PagerDuty > Add the integration key from step 1.
+4. Save your alert policy configuration!
+5. Test! Test! Test! You can simulate an alert in New Relic to ensure that it correctly triggers an incident in PagerDuty (ex. increase throughput by clicking through pages)
 
 
-#### 3. Uptime Tracking
+#### Design Comments:
 
-
-
-
++ We used New Relic because it's free and came with some good perks like custom policy creation to track other aspects of our application!
++ Pager Duty allowed us to assign a 24/7 On-Call schedule to respond quickly to app outages or anomalies in our policies!
 
 
 ### Week 10 to 15:
