@@ -139,7 +139,7 @@ com.newrelic INFO: New Relic Agent v7.2.0 is initializing...
 5. Test! Test! Test! You can simulate an alert in New Relic to ensure that it correctly triggers an incident in PagerDuty (ex. increase throughput by clicking through pages)
 
 
-#### Design Comments:
+#### Comments on Design:
 
 + We used New Relic because it's free and came with some good perks like custom policy creation to track other aspects of our application!
 + Pager Duty allowed us to assign a 24/7 On-Call schedule to respond quickly to app outages or anomalies in our policies!
