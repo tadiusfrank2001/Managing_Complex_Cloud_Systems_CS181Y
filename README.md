@@ -71,9 +71,35 @@
 
 ## Project Timeline and Structure 
 
-**Week 1 to 5:** Build the foundational backend serive using AWS Services and our code base. Our flakeflickr site has serveral components a Postgres, file storage, a Java app, and a Python service process. Below is diagram of our production server! 
+**Week 1 to 5:** Build the foundational backend serive using AWS Services and our code base. Our flakeflickr site has serveral components a Postgres, file storage, a Java app, and a Python service process. Below I'll go into detail to explain the end-to-end process of storing, displaying, and retriving images on our site!
+
+### Transaction Flow for Image Display and Retrieval
 
 <img src="https://github.com/tadiusfrank2001/Managing_Complex_Cloud_Systems_CS181Y/blob/main/Foundational%20AWS%20Backend.png" alt="Alt Text" width="500" />
+
+1. A web browser makes a connection over HTTPS to the destination currently named in your DNS entry on port 443. It makes a HTTP GET request for a resource with a name such as `/img/1440/39998.jpg`.
+2. The fakeflickr web app receives this request. The first thing it does is run some Postgres queries to verify that the authorization cookie is valid, and fetch the metadata for the requested image. The way fakeflickr connects to Postgres is defined in the `context.xml` file in `photo.war`.
+3. The fakeflickr web app sends a packet to the pkeep process, which requests an image file be rendered. The instructions to pkeep are (a) the imageID (b) the desired size and (c) any modifications such a rotation or text overlay. This request is sent via a UDP packet to localhost, port 4770. This is hard-coded in the askPkeep function in `PhotoUtils.java`.
+4. pkeep checks its pkeep_cache storage to see if this exact request has already been rendered. If so, it skips to step 6. If not, pkeep goes to pkeep_orig to find the original jpeg file for the given imageID.
+5. pkeep processes the image data, and writes the finished product to its pkeep_cache directory.
+6. pkeep sends a response back to the fakeflickr web app which contains the path to the finished image file. This path will be in pkeep_cache. The response is a UDP packet back to whatever port the request arrived from in step 3.
+7. The fakeflickr web app reads the cache file from disk storage.
+8. The fakeflickr web app sends the image data back to the browser as the response to the HTTPS request made in step 1.
+
+
+
+### Transaction Flow for Uploading Images
+
+1. A web browser connects over HTTPS to port 443. It makes an HTTP POST request with a resource name such as `/rest/edit`.
+2. The fakeflickr webapp checks the authorization cookie, then updates the Postgres database with the new data.
+3. If there are new files to store, fakeflickr writes them to the pkeep_orig directory. Note that no other processing happens right now–pkeep will do it on demand if the image is ever displayed later.
+4. fakeflickr responds to the HTTP POST request with a status code that is either success (200), or an error that indicates the request was invalid in some way (4xx), or an error that indicates the request was fine but the server failed for some reason (5xx).
+
+#### Comments on Design:
+
++ This whole transaction flow takes about 10ms!
++ Some latency was added because we spinned our VM out of a US East (Ohio) location and not US West (N. California) region! (We were in Claremont, CA for context)
+
 
 
 **Week 5 to 10:** Setup Site Monitoring via PagerDuty and New Relic and assign 24/7 monitoring schedules for team. Our team scored a 95% uptime score!
