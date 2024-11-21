@@ -131,7 +131,7 @@ com.newrelic INFO: New Relic Agent v7.2.0 is initializing...
 #### 2. Pager Duty for 24/7 alerting
 
 1. Create a Service in Pager Duty and reterive an integration key.
-2. Log into New Relic and navigate to Alerts & AI to create a policy that tracks a number of processes (throughput, latency, etc.)
+2. Log into New Relic and navigate to Alerts & AI to create a policy that tracks a number of processes (throughput, latency, CPU usage, web traffic, etc.)
 3. Within that Alert Policy, naviagte to "Add a notification channel" > Choose PagerDuty > Add the integration key from step 1.
 4. Save your alert policy configuration!
 5. Test! Test! Test! You can simulate an alert in New Relic to ensure that it correctly triggers an incident in PagerDuty (ex. increase throughput by clicking through pages)
