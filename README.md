@@ -181,7 +181,7 @@ After creating the app server pool, we set up an AWS Application Load Balancer (
 
 ##### Note:
 
-When setting up the ALB, you can either have Amazon Certificate Manager issue you a new certificate (should be free), we add one previusly from LetsEncrypt (also free) via certbot. It’s not necessary to run TLS between the load balancer and the app servers adds too much complexity but good security since this isn't a VPC.
+When setting up the ALB, you can either have Amazon Certificate Manager issue you a new certificate (should be free), we had one previously from LetsEncrypt (also free) via certbot. It’s not necessary to run TLS between the load balancer and the app servers adds too much complexity but good security since this isn't a VPC.
 
 #### 3. Provisioning Network File System (NFS) with an Elastic File System (EFS)
 
