@@ -179,8 +179,29 @@ After creating the app server pool, we set up an AWS Application Load Balancer (
 1. Utilize the AWS Management Console to create a target group of the registered instances from the previous step.
 2. Utilize the AWS Management Console to create an ALB that listens on port 80 (incoming unecrypted HTTP web traffic) and has the target group of instances as the destination.
 
+#### Note:
+
+When setting up the ALB, you can either have Amazon Certificate Manager issue you a new certificate (should be free), we add one previusly from LetsEncrypt (also free) via certbot. It’s not necessary to run TLS between the load balancer and the app servers adds too much complexity but good security since this isn't a VPC.
 
 #### 2. Provisioning Network File System (NFS) with an Elastic File System (EFS)
+
+Now, we need to set up an Amazon Elastic File System (EFS) for storing the original-file directory `/srv/photo/pkeep_orig` on an NFS volume visible to all app servers, and keep the cache-file directory local to each app server.
+
+Some benefits are:
+
+i. The cache-file directory will remain local to each app server (i.e., each server’s local storage)
+ii. This avoids simultaneous read-write operations in the cache directory, preventing potential race conditions.
+iii. The original-file volume should have write-once read-many behavior, which is generally safe for concurrent read operations but can also support safe write operations as long as only one writer is allowed at a time.
+
+1. Create an EFS.
+2. Mount the EFS file system on all app servers where the original-file directory should be stored `/srv/photo/pkeep_orig`.
+Mount Instructions from AWS https://docs.aws.amazon.com/efs/latest/ug/mounting-fs-mount-cmd-dns-name.html
+
+This document is still not very good. You will need to know that file-system-id refers to the number that you find on the EFS “file systems” page that starts with fs-. (Not the number that starts fsmt-.) 
+
+You will also need to know that the string that goes in aws-region is something such as “us-west-1”.
+
+If you try the mount command and it hangs, check the security group that is applied to your EFS filesystem. It defaults to broken, so you probably have to create a new group that allows incoming NFS (port 2049).
 
 
 
