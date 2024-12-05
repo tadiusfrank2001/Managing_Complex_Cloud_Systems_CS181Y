@@ -142,7 +142,7 @@ com.newrelic INFO: New Relic Agent v7.2.0 is initializing...
 
 + We used New Relic because it's free and came with some good perks like custom policy creation to track other aspects of our application!
 + Pager Duty allowed us to assign a 24/7 On-Call schedule to respond quickly to app outages or anomalies in our policies!
-+ We made 98.9% availablilty over 6 weeks!
++ We made 98.98% availablilty over 6 weeks!
 
 #### Challenges:
 
