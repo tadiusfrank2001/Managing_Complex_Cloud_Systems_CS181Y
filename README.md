@@ -183,7 +183,7 @@ After creating the app server pool, we set up an AWS Application Load Balancer (
 
 When setting up the ALB, you can either have Amazon Certificate Manager issue you a new certificate (should be free), we add one previusly from LetsEncrypt (also free) via certbot. It’s not necessary to run TLS between the load balancer and the app servers adds too much complexity but good security since this isn't a VPC.
 
-#### 2. Provisioning Network File System (NFS) with an Elastic File System (EFS)
+#### 3. Provisioning Network File System (NFS) with an Elastic File System (EFS)
 
 Now, we need to set up an Amazon Elastic File System (EFS) for storing the original-file directory `/srv/photo/pkeep_orig` on an NFS volume visible to all app servers, and keep the cache-file directory local to each app server.
 
@@ -206,7 +206,7 @@ You will also need to know that the string that goes in `aws-region` is somethin
 If you try the `mount` command and it hangs, check the security group that is applied to your EFS filesystem. It defaults to broken, so you probably have to create a new group that allows incoming NFS (port 2049).
 
 
-#### 3. Configure and Populate an RDS database
+#### 4. Configure and Populate an RDS database
 
 Lastly, we need to migrate our data from the postgres database to our RDS database and configure our database connection in our Java Apps.
 
