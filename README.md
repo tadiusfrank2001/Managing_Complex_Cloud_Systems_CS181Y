@@ -30,7 +30,7 @@
 
 `Amazon Elastic File System (EFS)`: scalable file storage service provided by AWS (Amazon Web Services), scales your storage capacity up or down as you add or remove files, without the need for manual intervention across mutliple instances.
 
-`AWS Load Balancer`: distributes incoming application traffic across multiple targets, such as Amazon EC2 instances, containers, and IP addresses. Mostly utilized for scaling up.
+`AWS Load Balancer`: distributes incoming application traffic across multiple targets, such as Amazon EC2 instances, containers, and IP addresses.
 
 ### 1b. Servers
 `Apache Tomcat`: open-source web server and servlet container developed by the Apache Software Foundation.
@@ -71,7 +71,7 @@
 
 ### Week 1 to 5:
 
-Build the foundational backend service using AWS and our code base. Our flakeflickr site has serveral components a Postgres, file storage, a Java app, and a Python service process. Below I'll go into detail to explain the end-to-end process of storing, displaying, and retriving images on our site! The following diagrams are of our prod server!
+In this milestone, we build the foundational backend service using AWS and our code base. Our flakeflickr site has serveral components a Postgres, file storage, a Java app, and a Python service process. Below I'll go into detail to explain the end-to-end process of storing, displaying, and retriving images on our site! The following diagrams are of our prod server!
 
 #### 1. Transaction Flow for Image Display and Retrieval
 
@@ -102,12 +102,13 @@ Build the foundational backend service using AWS and our code base. Our flakefli
 
 + This whole transaction flow takes about 10ms!
 + Some latency was added because we spinned our VM out of a US East (Ohio) location and not the US West (N. California) region! (We were in Claremont, CA for context)
++ At this stage, our Java App is directly facing the world on one server which could pose challenges on our systems reliability, availability, efficiency (Latency & Throughput).
 
 
 
 ### Week 5 to 10:
 
-Setup Site Monitoring via PagerDuty and New Relic and assign 24/7 monitoring schedules for team. Here, we apply some of the core concepts of cybernectics (Control and Regulation, Information and Communication, Adaptation and Learning) to design a responsive and efficient incident response system to monitor our website and study the systems comprised of nonliving and living components.
+In this milestone, we setup Site Monitoring via PagerDuty and New Relic and assign 24/7 monitoring schedules for team. Here, we apply some of the core concepts of cybernectics (Control and Regulation, Information and Communication, Adaptation and Learning) to design a responsive and efficient incident response system to monitor our website and study the systems comprised of nonliving and living components.
 
 <img src="https://github.com/tadiusfrank2001/Managing_Complex_Cloud_Systems_CS181Y/blob/main/Incident_Response_System.png" alt="Alt Text" width="500"/>
 
@@ -141,14 +142,32 @@ com.newrelic INFO: New Relic Agent v7.2.0 is initializing...
 
 + We used New Relic because it's free and came with some good perks like custom policy creation to track other aspects of our application!
 + Pager Duty allowed us to assign a 24/7 On-Call schedule to respond quickly to app outages or anomalies in our policies!
-+ We made 95% uptime! 
++ We made 98.9% availablilty over 6 weeks!
+
+#### Challenges:
+
++ Abnormal web traffic surges ramp up our CPU usage and crash our Java App.
++ A memory leak was present due misconfirguration between the Java App and Postgres database in the `context.xml` file of `photo.war` in the `war` directory.
++ Our Availability is high but it required too much human supervision via paging!
 
 
 ### Week 10 to 15:
 
-Scale up our Backend system to handle 1000+ visitors simultaneously for 15mins and a simulated DDos attack via bots. Below is a diagram of scaled up system!
+In this milestone, we scale up our backend system to handle 1000+ visitors and 10,000 requests per minute (RPM) for 15mins. Over the span of 15 minutes, the system will under load with 150,000 requests in total to similate a DDoS.
+
+A DDoS attack means "Distributed Denial-of-Service (DDoS) Attack" and it is a cybercrime in which the attacker floods a server with internet traffic to prevent users from accessing connected online services and sites.
+
+To achieve this, we horizontally scaled our previous system!
+
 
 <img src="https://github.com/tadiusfrank2001/Managing_Complex_Cloud_Systems_CS181Y/blob/main/Scaled%20Up%20AWS%20Backend.png" alt="Alt Text" width="500" />
+
+
+#### Create a App Server Pool for Application Load Balancer (ALP)
+
+We needed to set up an app server pool of at least 3 instances, where each one has tomcat and fakeflickr installed. Then set up an AWS Application Load Balancer (ALB) using the pool as a target group.
+
+#### Set up an Elastic File System (EFS)
 
 
 
