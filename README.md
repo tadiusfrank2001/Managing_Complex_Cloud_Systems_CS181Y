@@ -6,7 +6,7 @@
 3) Acquire the fundamentals of Cloud Engineering by utilzing AWS Cloud Services to construct a backend service and database to host our assigned website.
 4) Master the fundamentals of Site-Reliability Engineering by setting up a paging (PagerDuty) and web monitoring system (New Relic) to track the uptime for our assigned website.
 5) Scale up our backend cloud service using a relational database, additional copies of prod server, elastic file system, and a load balancer.
-7) Provide 24/7 monitoring and maintenance of website due to constant traffic spikes and simulated DDos attack via bots, made 95% uptime each week for five weeks.
+7) Provide 24/7 monitoring and maintenance of website due to constant traffic spikes and simulated DDos attack via bots, made 98.98% uptime each week for five weeks.
 
 ## Skills
 + Site Reliability & Monitoring (On-Call Experience)
