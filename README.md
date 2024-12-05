@@ -26,11 +26,11 @@
 
 `AWS Lambda`: Allows you to run backend code without provisioning servers. It's often used for creating serverless architectures, where you only pay for the compute time you consume.
 
-`Amazon RDS (Relational Database Service)`: Provides managed relational databases like MySQL, PostgreSQL, and others.
+`Amazon Relational Database Service (RDS)`: Provides managed relational databases like MySQL, PostgreSQL, and others.
 
 `Amazon Elastic File System (EFS)`: scalable file storage service provided by AWS (Amazon Web Services), scales your storage capacity up or down as you add or remove files, without the need for manual intervention across mutliple instances.
 
-`AWS Load Balancer`: distributes incoming application traffic across multiple targets, such as Amazon EC2 instances, containers, and IP addresses.
+`AWS Application Load Balancer (ALB)`: distributes incoming application traffic across multiple targets, such as Amazon EC2 instances, containers, and IP addresses.
 
 ### 1b. Servers
 `Apache Tomcat`: open-source web server and servlet container developed by the Apache Software Foundation.
@@ -157,17 +157,36 @@ In this milestone, we scale up our backend system to handle 1000+ visitors and 1
 
 A DDoS attack means "Distributed Denial-of-Service (DDoS) Attack" and it is a cybercrime in which the attacker floods a server with internet traffic to prevent users from accessing connected online services and sites.
 
-To achieve this, we horizontally scaled our previous system!
+To achieve this, we horizontally scaled our previous system! This required four main changes to our current system:
 
 
 <img src="https://github.com/tadiusfrank2001/Managing_Complex_Cloud_Systems_CS181Y/blob/main/Scaled%20Up%20AWS%20Backend.png" alt="Alt Text" width="500" />
 
 
-#### Create a App Server Pool for Application Load Balancer (ALP)
+#### 1. Create a App Server Pool for Application Load Balancer (ALP)
 
-We needed to set up an app server pool of at least 3 instances, where each one has tomcat and fakeflickr installed. Then set up an AWS Application Load Balancer (ALB) using the pool as a target group.
+We needed to set up an app server pool of at least 3 instances, where each one has tomcat and fakeflickr installed. 
 
-#### Set up an Elastic File System (EFS)
+1. When setting up new app servers, think about any configuration changes that would be good to make before cloning the VM a bunch of times. Uninstall the `posrgresdl-server` server for instance since we are setting up an RDS database.
+2. Snapshot the volume on your existing production VM. Volumes refers to persistaent storage attached to a VM such as the operating system, application files, databases(we deleted this!), and configuration data.
+3. Convert the Volume into an Amazon Machine Image (AMI) to have a pre-configured template used to instatiate new instances.
+4. Produce three to four instances of our modified prod server.
+
+#### 2. Connect App Server Pool to Application Load Balancer (ALP) via a target group
+
+After creating the app server pool, we set up an AWS Application Load Balancer (ALB) using the pool as a target group. An ALB distributes incoming application traffic across multiple targets, such as EC2 instances, containers, or IP addresses, to ensure that no single server is overwhelmed and to provide high availability, fault tolerance, and scalability for our application.
+
+1. Utilize the AWS Management Console to create a target group of the registered instances from the previous step.
+2. Utilize the AWS Management Console to create an ALB that listens on port 80 (incoming unecrypted HTTP web traffic) and has the target group of instances as the destination.
+
+
+#### 2. Provisioning Network File System (NFS) with an Elastic File System (EFS)
+
+
+
+#### 3. Configure and Populate an RDS database
+
+
 
 
 
