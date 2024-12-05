@@ -199,11 +199,11 @@ Some benefits are:
 
 ##### Note:
 
-This document is still not very good. You will need to know that file-system-id refers to the number that you find on the EFS “file systems” page that starts with fs-. (Not the number that starts fsmt-.) 
+This document is still not very good. You will need to know that `file-system-id` refers to the number that you find on the EFS “file systems” page that starts with `fs-`. (Not the number that starts `fsmt-`.) 
 
-You will also need to know that the string that goes in aws-region is something such as “us-west-1”.
+You will also need to know that the string that goes in `aws-region` is something such as “us-west-1”.
 
-If you try the mount command and it hangs, check the security group that is applied to your EFS filesystem. It defaults to broken, so you probably have to create a new group that allows incoming NFS (port 2049).
+If you try the `mount` command and it hangs, check the security group that is applied to your EFS filesystem. It defaults to broken, so you probably have to create a new group that allows incoming NFS (port 2049).
 
 
 #### 3. Configure and Populate an RDS database
