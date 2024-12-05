@@ -189,9 +189,9 @@ Now, we need to set up an Amazon Elastic File System (EFS) for storing the origi
 
 Some benefits are:
 
-> The cache-file directory will remain local to each app server (i.e., each server’s local storage)
->  This avoids simultaneous read-write operations in the cache directory, preventing potential race conditions.
->  The original-file volume should have write-once read-many behavior, which is generally safe for concurrent read operations but can also support safe write operations as long as only one writer is allowed at a time.
++ The cache-file directory will remain local to each app server (i.e., each server’s local storage)
++  This avoids simultaneous read-write operations in the cache directory, preventing potential race conditions.
++ The original-file volume should have write-once read-many behavior, which is generally safe for concurrent read operations but can also support safe write operations as long as only one writer is allowed at a time.
 
 1. Create an EFS.
 2. Mount the EFS file system on all app servers where the original-file directory should be stored `/srv/photo/pkeep_orig`.
@@ -206,8 +206,14 @@ You will also need to know that the string that goes in aws-region is something 
 If you try the mount command and it hangs, check the security group that is applied to your EFS filesystem. It defaults to broken, so you probably have to create a new group that allows incoming NFS (port 2049).
 
 
-
 #### 3. Configure and Populate an RDS database
+
+Lastly, we need to migrate our data from the postgres database to our RDS database and configure our database connection in our Java Apps.
+
+1. Create a RDS Database utilzing the Amazon Management Console. db.t3.micro, will be enough. In addition, make sure Postgres Version 15 is specifically selected for compatibility.
+2. Confugure the Secruity Group on the RDS to allow incoming traffic from our Java App.
+3. Recall that the database connection is configured in `war/META-INF/context.xml` of our Java App. We need to copy our RDS endpoint URL into that configuration file to set our database connection.
+4. A normal way to dump data from one postgres database and copy it to another is to use `pg_dump` followed by `pg_restore` or plain old psql.
 
 
 
