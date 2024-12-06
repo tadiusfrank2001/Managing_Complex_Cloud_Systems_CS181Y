@@ -10,10 +10,13 @@
 
 ## Skills
 + Site Reliability & Monitoring (On-Call Experience)
-+ AWS & Cloud Engineering
++ Cloud Engineering (AWS)
 + Relational Databases
 + Software Architecture
-+ Strong Understanding of Complex Systems (Software, Buisness Organization, etc.)
++ System Design (Scalability, Reliability, Availability)
++ Networking
++ Security
++ Advanced Understanding of Complex Systems (Software, Buisness Organization, etc.)
 + Cross Team Collaboration 
 
 ## Technologies Used
