@@ -1,16 +1,29 @@
 # Managing-Complex-Cloud-Systems-CS181Y
 
-## Table of Contents 
-
-- [Basic Overview & Objectives](#BasicOverview&Objectives)
-- [Skills](#Skills)
-- [Technology Used](#TechnologiesUsed)
-      - [AWS Services](#AWSServices)
-      - [Languages](#Languages)
-      - [Technology Used](#TechnologiesUsed)
-- [Project Timeline & Structure](#ProjectTimelineandStructure)
-- [License](#license)
-
+## Table of Contents
+- [Basic Overview & Objectives](#basic-overview--objectives)
+- [Skills](#skills)
+- [Technologies Used](#technologies-used)
+  - [Cloud Back-End and Hosting](#cloud-back-end-and-hosting)
+    - [AWS Services](#aws-services)
+    - [Servers](#servers)
+    - [Operating System](#operating-system)
+    - [Database](#database)
+    - [Languages](#languages)
+  - [Site Monitoring Software](#site-monitoring-software)
+- [Project Timeline and Structure](#project-timeline-and-structure)
+  - [Week 1 to 5](#week-1-to-5)
+    - [Transaction Flow for Image Display and Retrieval](#transaction-flow-for-image-display-and-retrieval)
+    - [Transaction Flow for Uploading Images](#transaction-flow-for-uploading-images)
+  - [Week 5 to 10](#week-5-to-10)
+    - [Setting Up New Relic for Java (JVM w/ Tomcat)](#setting-up-new-relic-for-java-jvm-w-tomcat)
+    - [Pager Duty for 24/7 Alerting](#pager-duty-for-247-alerting)
+  - [Week 10 to 15](#week-10-to-15)
+    - [Create an App Server Pool for Application Load Balancer (ALB)](#create-an-app-server-pool-for-application-load-balancer-alb)
+    - [Connect App Server Pool to Application Load Balancer (ALB) via a Target Group](#connect-app-server-pool-to-application-load-balancer-alb-via-a-target-group)
+    - [Provisioning Network File System (NFS) with Elastic File System (EFS)](#provisioning-network-file-system-nfs-with-elastic-file-system-efs)
+    - [Configure and Populate an RDS Database](#configure-and-populate-an-rds-database)
+- [Challenges](#challenges)
 
 
 ## Basic Overview & Objectives
