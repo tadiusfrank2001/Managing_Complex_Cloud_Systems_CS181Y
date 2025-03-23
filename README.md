@@ -23,7 +23,6 @@
     - [Connect App Server Pool to Application Load Balancer ALB via a Target Group](#connect-app-server-pool-to-application-load-balancer-alb-via-a-target-group)
     - [Provisioning Network File System NFS with Elastic File System EFS](#provisioning-network-file-system-nfs-with-elastic-file-system-efs)
     - [Configure and Populate an RDS Database](#configure-and-populate-an-rds-database)
-- [Challenges](#challenges)
 
 
 ## Basic Overview & Objectives
