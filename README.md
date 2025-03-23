@@ -1,6 +1,19 @@
 # Managing-Complex-Cloud-Systems-CS181Y
 
-## Basic Overview
+## Table of Contents 
+
+- [Basic Overview & Objectives](#BasicOverview&Objectives)
+- [Skills](#Skills)
+- [Technology Used](#TechnologiesUsed)
+      - [AWS Services](#AWSServices)
+      - [Languages](#Languages)
+      - [Technology Used](#TechnologiesUsed)
+- [Project Timeline & Structure](#ProjectTimelineandStructure)
+- [License](#license)
+
+
+
+## Basic Overview & Objectives
 1) Participate in a 15-week practicum focused on building and maintaining the backend cloud services and human teams that ensure service uptime and monitoring.
 2) Coordinate with a team of three engineers to build and monitor our cloud backend service.
 3) Acquire the fundamentals of cloud engineering and architecture by utilzing AWS to construct a backend service and database to host our assigned website.
