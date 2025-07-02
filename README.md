@@ -24,7 +24,7 @@
     - [Provisioning Network File System NFS with Elastic File System EFS](#provisioning-network-file-system-nfs-with-elastic-file-system-efs)
     - [Configure and Populate an RDS Database](#configure-and-populate-an-rds-database)
 
-
+---
 ## Basic Overview & Objectives
 1) Participate in a 15-week practicum focused on building and maintaining the backend cloud services and human teams that ensure service uptime and monitoring.
 2) Coordinate with a team of three engineers to build and monitor our cloud backend service.
@@ -33,6 +33,7 @@
 5) Scale up our backend cloud service using a relational database, additional copies of prod server, elastic file system, and a load balancer.
 7) Provide 24/7 monitoring and maintenance of website due to constant traffic spikes and simulated DDos attack via bots, made 98.98% uptime each week for five weeks.
 
+---
 ## Skills
 + Site Reliability & Monitoring (On-Call Experience)
 + Cloud Engineering (AWS)
@@ -44,6 +45,7 @@
 + Advanced Understanding of Complex Systems (Software, Buisness Organization, etc.)
 + Cross Team Collaboration 
 
+---
 ## Technologies Used
 
 ### 1. Cloud Back-End and Hosting
@@ -94,6 +96,7 @@
 
 `New Relic`: a comprehensive observability platform that provides monitoring and performance management for applications, infrastructure, and digital experiences. It helps organizations gain insights into their systems, detect and troubleshoot issues, and optimize performance. 
 
+---
 
 ## Project Timeline and Structure 
 
@@ -132,7 +135,7 @@ In this milestone, we build the foundational backend service using AWS and our c
 + Some latency was added because we spinned our VM out of a US East (Ohio) location and not the US West (N. California) region! (We were in Claremont, CA for context)
 + At this stage, our Java App is directly facing the world on one server which could pose challenges on our systems reliability, availability, efficiency (Latency & Throughput).
 
-
+---
 
 ### Week 5 to 10:
 
@@ -178,6 +181,7 @@ com.newrelic INFO: New Relic Agent v7.2.0 is initializing...
 + A memory leak was present due misconfirguration between the Java App and Postgres database in the `context.xml` file of `photo.war` in the `war` directory.
 + Our Availability is high but it required too much human supervision via paging!
 
+---
 
 ### Week 10 to 15:
 
